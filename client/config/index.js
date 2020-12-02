@@ -1,3 +1,5 @@
+const path = require('path')
+
 const config = {
   projectName: 'everyDaywx2',
   date: '2020-12-2',
@@ -9,6 +11,15 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
+  alias: {
+    src: path.resolve(__dirname, '..', 'src'),
+    assets: path.resolve(__dirname, '..', 'src/assets'),
+    components: path.resolve(__dirname, '..', 'src/components'),
+    pages: path.resolve(__dirname, '..', 'src/pages'),
+    store: path.resolve(__dirname, '..', 'src/store'),
+    utils: path.resolve(__dirname, '..', 'src/utils'),
+    hooks: path.resolve(__dirname, '..', 'src/hooks'),
+  },
   plugins: [],
   defineConstants: {
   },

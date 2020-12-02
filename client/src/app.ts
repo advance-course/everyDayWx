@@ -7,8 +7,16 @@ class App extends Component {
 
   componentDidMount () {
     if (process.env.TARO_ENV === 'weapp') {
-      Taro.cloud.init()
+      Taro.cloud.init({
+        env: 'develop-1gsdlqw8ff792ed2',
+        traceUser: true
+      })
     }
+
+    const updateManager = Taro.getUpdateManager()
+    updateManager.onUpdateReady(() => {
+      updateManager.applyUpdate()
+    })
   }
 
   componentDidShow () {}
