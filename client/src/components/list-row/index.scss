@@ -1,0 +1,165 @@
+$hd: 2 !default;
+$color-bg: #FFF !default;
+/* 边框颜色 */
+$color-border: #D6E4EF !default;
+/* 水平间距 */
+$spacing-h-lg: 12px * $hd !default;
+/* 垂直间距 */
+$spacing-v-lg: 12px * $hd !default;
+/* Text Color */
+$color-text-base: #333 !default; // 文字的基本色
+/* List */
+$ui-list-thumb-size: 56px !default;
+/* Font */
+$font-size-base: 14px * $hd !default; // 常用字号
+$font-size-lg: 16px * $hd !default; // 常规标题
+/* Line Height */
+$line-height-zh: 1.5 !default; // 中文多行
+
+
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin active {
+  transition: background-color 0.3s;
+
+  &:active {
+    background-color: #F0F0F0;
+  }
+}
+
+@mixin squareImg($size: 56px) {
+  width: $size;
+  height: $size;
+  &__info {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+.ui-list-row {
+  padding: $spacing-v-lg $spacing-h-lg;
+  position: relative;
+  box-sizing: border-box;
+  color: $color-text-base;
+  font-size: $font-size-lg;
+  line-height: $line-height-zh;
+  display: flex;
+  align-items: center;
+  @include active;
+
+  &::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: auto;
+    left: $spacing-h-lg;
+    right: 0;
+    bottom: 0;
+    transform: scaleY(0.5);
+    transform-origin: center;
+    border-bottom: 1px solid $color-border;
+    pointer-events: none;
+  }
+
+  &--thumb {
+    .row-thumb {
+      margin-right: 24px;
+      @include squareImg($ui-list-thumb-size);
+    }
+  }
+
+  &--disabled {
+    opacity: 0.3;
+
+    &:active {
+      background-color: transparent !important;
+    }
+  }
+
+  &--no-border::after {
+    content: initial;
+    border: none;
+  }
+
+  &-content {
+    flex: 1;
+    overflow: hidden;
+    margin-right: 40px;
+  }
+
+  &-extra {
+    max-width: 235px;
+    text-align: right;
+  }
+
+  .row-content {
+    &__info {
+      &-title {
+        @include ellipsis;
+
+        color: inherit;
+        font-size: inherit;
+        line-height: $line-height-zh;
+      }
+
+      &-note {
+        color: #999;
+        font-size: $font-size-base;
+        line-height: $line-height-zh;
+      }
+    }
+  }
+
+  .row-extra {
+    position: relative;
+
+    &__info,
+    &__icon,
+    // &__image,
+    &__switch {
+      display: inline-block;
+    }
+
+    &__info {
+      @include ellipsis;
+
+      max-width: 100%;
+      color: #999;
+      padding-right: 30px;
+      font-size: $font-size-lg;
+      vertical-align: middle;
+      box-sizing: border-box
+    }
+
+    &__icon {
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      position: absolute;
+
+      &-arrow {
+        color: #CCC;
+        font-size: 48px;
+      }
+    }
+
+    &__switch {
+      vertical-align: middle;
+    }
+
+    // &__image {
+    //   @include squareImg($ui-list-thumb-size);
+    //   vertical-align: middle;
+    //   margin-right: 30px;
+    //   &-info {
+    //     width: 100%;
+    //     height: 100%;
+    //   }
+    // }
+  }
+}
