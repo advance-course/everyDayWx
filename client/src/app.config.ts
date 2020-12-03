@@ -5,6 +5,7 @@ const config: Config = {
     'pages/home/index',
     'pages/explore/index',
     'pages/profile/index',
+    'pages/buttonUi/index',
   ],
   window: {
     backgroundTextStyle: 'light',
