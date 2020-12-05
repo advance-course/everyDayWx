@@ -7,7 +7,8 @@ import './index.scss'
 class RButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+    }
   }
 
 

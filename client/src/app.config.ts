@@ -5,7 +5,10 @@ const config: Config = {
     'pages/home/index',
     'pages/explore/index',
     'pages/profile/index',
-    'pages/buttonUi/index',
+    'pages/ui/index',
+    'pages/ui/view/index',
+    'pages/ui/basic/index',
+    'pages/ui/basic/button/index'
   ],
   window: {
     backgroundTextStyle: 'light',
