@@ -2,37 +2,42 @@ import React, { Component } from 'react'
 import Taro, { Config } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import '../pages.scss'
-import basic from '../../../assets/uiPage/basic.png'
+import layout from '../../../assets/uiPage/layout.png'
 
-export default class BasicPage extends Component {
-  toButtonPage() {
-    Taro.navigateTo({url: '/pages/ui/basic/button/index'})
-  }
+export default class ViewPage extends Component {
   render () {
     return (
       <View className='basic-page'>
         <View className='page-header'>
           <View className='header-icon'>
-            <Image className='img' src={basic}></Image>
+            <Image className='img' src={layout}></Image>
           </View>
-          <View className='page-title'>基础</View>
+          <View className='page-title'>布局</View>
         </View>
         <View className='page-body'>
           <View className='component-list'>
             <View className='list-item'>
-              <View className='item-title'>Color 颜色</View>
+              <View className='item-title'>Flex 弹性布局</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Icon 图标</View>
+              <View className='item-title'>Grid 栅格</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Typo 字体</View>
+              <View className='item-title'>List 列表</View>
               <View className='item-arrow'>&gt;</View>
             </View>
-            <View className='list-item' onClick={() => {this.toButtonPage()}}>
-              <View className='item-title'>Button 按钮</View>
+            <View className='list-item'>
+              <View className='item-title'>Card 卡片</View>
+              <View className='item-arrow'>&gt;</View>
+            </View>
+            <View className='list-item'>
+              <View className='item-title'>Float-Layout 浮动弹层</View>
+              <View className='item-arrow'>&gt;</View>
+            </View>
+            <View className='list-item'>
+              <View className='item-title'>Accordion 手风琴</View>
               <View className='item-arrow'>&gt;</View>
             </View>
           </View>

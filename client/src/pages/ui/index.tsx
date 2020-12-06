@@ -4,11 +4,11 @@ import { Icon, View, Image } from '@tarojs/components'
 import './index.scss'
 import basic from '../../assets/uiPage/basic.png'
 import view from '../../assets/uiPage/view.png'
-import touch from '../../assets/uiPage/touch.png'
+import feedback from '../../assets/uiPage/feedback.png'
 import form from '../../assets/uiPage/form.png'
 import layout from '../../assets/uiPage/layout.png'
 import navigation from '../../assets/uiPage/navigation.png'
-import high from '../../assets/uiPage/high.png'
+import advanced from '../../assets/uiPage/advanced.png'
 
 export default class ButtonUi extends Component {
   toBasicPage() {
@@ -16,6 +16,21 @@ export default class ButtonUi extends Component {
   }
   toViewPage() {
     Taro.navigateTo({url: '/pages/ui/view/index'})
+  }
+  toFeedbackPage() {
+    Taro.navigateTo({url: '/pages/ui/feedback/index'})
+  }
+  toFormPage() {
+    Taro.navigateTo({url: '/pages/ui/form/index'})
+  }
+  toLayoutPage() {
+    Taro.navigateTo({url: '/pages/ui/layout/index'})
+  }
+  toNavigationPage() {
+    Taro.navigateTo({url: '/pages/ui/navigation/index'})
+  }
+  toAdvancedPage() {
+    Taro.navigateTo({url: '/pages/ui/advanced/index'})
   }
   render() {
     return (
@@ -43,9 +58,9 @@ export default class ButtonUi extends Component {
             </View>
             <View className='module-arrow'>&gt;</View>
           </View>
-          <View className='module'>
+          <View className='module' onClick={() => {this.toFeedbackPage()}}>
             <View className='module-img'>
-              <Image className='img' src={touch}></Image>
+              <Image className='img' src={feedback}></Image>
             </View>
             <View className='module-text'>
               <View className='module-title'>操作反馈</View>
@@ -53,7 +68,7 @@ export default class ButtonUi extends Component {
             </View>
             <View className='module-arrow'>&gt;</View>
           </View>
-          <View className='module'>
+          <View className='module' onClick={() => {this.toFormPage()}}>
             <View className='module-img'>
               <Image className='img' src={form}></Image>
             </View>
@@ -63,7 +78,7 @@ export default class ButtonUi extends Component {
             </View>
             <View className='module-arrow'>&gt;</View>
           </View>
-          <View className='module'>
+          <View className='module' onClick={() => {this.toLayoutPage()}}>
             <View className='module-img'>
               <Image className='img' src={layout}></Image>
             </View>
@@ -73,7 +88,7 @@ export default class ButtonUi extends Component {
             </View>
             <View className='module-arrow'>&gt;</View>
           </View>
-          <View className='module'>
+          <View className='module' onClick={() => {this.toNavigationPage()}}>
             <View className='module-img'>
               <Image className='img' src={navigation}></Image>
             </View>
@@ -83,9 +98,9 @@ export default class ButtonUi extends Component {
             </View>
             <View className='module-arrow'>&gt;</View>
           </View>
-          <View className='module'>
+          <View className='module' onClick={() => {this.toAdvancedPage()}}>
             <View className='module-img'>
-              <Image className='img' src={high}></Image>
+              <Image className='img' src={advanced}></Image>
             </View>
             <View className='module-text'>
               <View className='module-title'>高阶组件</View>

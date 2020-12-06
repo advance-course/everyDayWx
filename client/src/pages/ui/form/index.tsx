@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Taro, { Config } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import '../pages.scss'
-import view from '../../../assets/uiPage/view.png'
+import form from '../../../assets/uiPage/form.png'
 
 export default class ViewPage extends Component {
   render () {
@@ -10,58 +10,66 @@ export default class ViewPage extends Component {
       <View className='basic-page'>
         <View className='page-header'>
           <View className='header-icon'>
-            <Image className='img' src={view}></Image>
+            <Image className='img' src={form}></Image>
           </View>
-          <View className='page-title'>视图</View>
+          <View className='page-title'>表单</View>
         </View>
         <View className='page-body'>
           <View className='component-list'>
             <View className='list-item'>
-              <View className='item-title'>Avatar 头像</View>
+              <View className='item-title'>Form 表单</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Article 文章</View>
+              <View className='item-title'>Input 输入框</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Badge 徽标</View>
+              <View className='item-title'>Radio 单选框</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Countdown 倒计时</View>
+              <View className='item-title'>CheckBox 复选框</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Curtain 幕帘</View>
+              <View className='item-title'>Switch 开关</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Divider 分割线</View>
+              <View className='item-title'>Rate 评分</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>NoticeBar 通告栏</View>
+              <View className='item-title'>Input-Number 数字输入框</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Tag 标签</View>
+              <View className='item-title'>Textarea 多行文本框</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Timeline 时间轴</View>
+              <View className='item-title'>Picker 选择器</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Swiper 滑块视图容器</View>
+              <View className='item-title'>Picker-View 滚动选择器</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Load-More 页面提示</View>
+              <View className='item-title'>Slider 滑动条</View>
               <View className='item-arrow'>&gt;</View>
             </View>
             <View className='list-item'>
-              <View className='item-title'>Steps 步骤条</View>
+              <View className='item-title'>Search-Bar 搜索栏</View>
+              <View className='item-arrow'>&gt;</View>
+            </View>
+            <View className='list-item'>
+              <View className='item-title'>Image-Picker 图片选择器</View>
+              <View className='item-arrow'>&gt;</View>
+            </View>
+            <View className='list-item'>
+              <View className='item-title'>Range 范围选择器</View>
               <View className='item-arrow'>&gt;</View>
             </View>
           </View>
