@@ -38,11 +38,15 @@ export default function ListRow ({
   const propsTitle = String(title)
   const propsExtraText = String(extraText)
 
-  const rootClass = useMemo(() => classNames(className, 'ui-list-row', {
-    'ui-list-row--thumb': thumb,
-    'ui-list-row--disabled': disabled,
-    'ui-list-row--no-border': !bordered
-  }), [bordered, className, disabled, thumb])
+  const rootClass = useMemo(() => classNames(
+    'ui-list-row',
+    {
+      'ui-list-row--thumb': thumb,
+      'ui-list-row--disabled': disabled,
+      'ui-list-row--no-border': !bordered
+    },
+    className
+  ), [bordered, className, disabled, thumb])
 
   const handleClick = (event: ITouchEvent): void => {
     if (typeof onClick === 'function' && !disabled) {
