@@ -35,9 +35,6 @@ export default function ListRow ({
   onClick,
   onSwitchChange
 }: ListRowProps) {
-  const propsTitle = String(title)
-  const propsExtraText = String(extraText)
-
   const rootClass = useMemo(() => classNames(
     'ui-list-row',
     {
@@ -77,13 +74,13 @@ export default function ListRow ({
       )}
       <View className='ui-list-row-content row-content'>
         <View className='row-content__info'>
-          <View className='row-content__info-title'>{propsTitle}</View>
+          <View className='row-content__info-title'>{title}</View>
           {note && <View className='row-content__info-note'>{note}</View>}
         </View>
       </View>
       <View className='ui-list-row-extra row-extra'>
-        {propsExtraText && <View className='row-extra__info'>{propsExtraText}</View>}
-        {isSwitch && !propsExtraText && (
+        {extraText && <View className='row-extra__info'>{extraText}</View>}
+        {isSwitch && !extraText && (
           <View className='row-extra__switch' onClick={handleSwitchClick}>
             <Switch
               color={switchColor}
