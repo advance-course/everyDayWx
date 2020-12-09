@@ -6,15 +6,8 @@ const config: Config = {
     'pages/explore/index',
     'pages/profile/index',
     'pages/ui/index',
-    'pages/ui/view/index',
-    'pages/ui/basic/index',
+    'pages/ui/module/index',
     'pages/ui/basic/button/index',
-    'pages/ui/feedback/index',
-    'pages/ui/form/index',
-    'pages/ui/layout/index',
-    'pages/ui/navigation/index',
-    'pages/ui/advanced/index',
-
   ],
   window: {
     backgroundTextStyle: 'light',

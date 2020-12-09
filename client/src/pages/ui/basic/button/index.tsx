@@ -5,6 +5,7 @@ import RButton from 'components/button/index'
 import './index.scss'
 
 export default class ButtonUi extends Component {
+  
   render() {
     return (
       <View className='basic-page'>
@@ -34,6 +35,11 @@ export default class ButtonUi extends Component {
               <RButton type='ghost'>ghost</RButton>
               <RButton type='ghost' disabled>ghost</RButton>
             </View>
+            <View>
+              <Text>noBorder</Text>
+              <RButton type='noBorder'>noBorder</RButton>
+              <RButton type='noBorder' disabled>disabled</RButton>
+            </View>
           </View>
           <View className='body-module'>
             <Text className='module-title'>尺寸</Text>
@@ -43,16 +49,18 @@ export default class ButtonUi extends Component {
               <RButton type='primary' size='large'>large</RButton>
               <RButton type='warning' size='large'>large</RButton>
               <RButton type='ghost' size='large'>large</RButton>
+              <RButton type='noBorder' size='large'>large</RButton>
               <RButton type='primary' size='large' disabled>large</RButton>
               <RButton type='warning' size='large' disabled>large</RButton>
               <RButton type='ghost' size='large' disabled>large</RButton>
             </View>
             <View>
               <Text>小按钮</Text>
-              <RButton size='small'>large</RButton>
+              <RButton size='small'>small</RButton>
               <RButton type='primary' size='small'>small</RButton>
               <RButton type='warning' size='small'>small</RButton>
               <RButton type='ghost' size='small'>small</RButton>
+              <RButton type='noBorder' size='small'>small</RButton>
               <RButton type='primary' size='small' disabled>small</RButton>
               <RButton type='warning' size='small' disabled>small</RButton>
               <RButton type='ghost' size='small' disabled>small</RButton>
@@ -63,6 +71,7 @@ export default class ButtonUi extends Component {
               <RButton type='primary' size='full'>full</RButton>
               <RButton type='warning' size='full'>full</RButton>
               <RButton type='ghost' size='full'>full</RButton>
+              <RButton type='noBorder' size='full'>full</RButton>
               <RButton size='full' disabled>full</RButton>
               <RButton type='primary' size='full' disabled>full</RButton>
               <RButton type='warning' size='full' disabled>full</RButton>

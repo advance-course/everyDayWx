@@ -19,27 +19,36 @@ button::after {
   border: 1px solid #ddd;
   position: relative;
   outline: none;
+  text-overflow: ellipsis;
   
   &:active {
+    transition: opacity 0.3s;
     opacity: 0.6;
   }
 
   &-primary {
-    border: none;
+    border: 1px solid #1783e9 !important;
     background-color: #1890ff;
     color: #fff;
   }
 
   &-warning {
-    border: none;
+    border: 1px solid #c1060f !important;
     background-color: #dc0711;
     color: #fff;
   }
 
   &-ghost {
-    border: 1px solid #1890ff;
+    border: 1px solid #0a7be4;
     color: #1890ff;
     background-color: #fff;
+  }
+
+  &-noBorder {
+    color: black;
+    background-color: none;
+    border: none !important;
+    outline: none !important;
   }
 
   &-small {
@@ -51,27 +60,29 @@ button::after {
   }
 
   &-large {
-    width: 100px;
-    height: 60px;
+    width: 130px;
+    height: 70px;
     font-size: 26px;
-    line-height: 60px;
+    line-height: 70px;
     border-radius: 12px;
   }
 
   &-full {
     width: 100%;
-    height: 60px;
+    height: 80px;
     font-size: 26px;
-    line-height: 60px;
+    line-height: 80px;
     margin-left: 0 !important;
     margin-right: 0 !important;
     border-left: none;
     border-right: none;
   }
+
   &-disabled {
     opacity: .3;
     &:active {
       opacity: 0.3 !important;
     }
   }
+
 }
