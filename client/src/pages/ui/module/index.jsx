@@ -11,9 +11,6 @@ import navigation from '../uiPage/navigation.png'
 import advanced from '../uiPage/advanced.png'
 
 export default class ModulePage extends Component {
-  config = {
-    navigationBarTitleText: 'Everyday UI'
-  }
   static itemInfo = {
     Basic: {
       title: '基础',
