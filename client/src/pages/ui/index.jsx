@@ -58,6 +58,7 @@ export default class UiPage extends Component {
 
   gotoModule = e => {
     const type = e.currentTarget.dataset.type
+    console.log(e.currentTarget.dataset)
     Taro.navigateTo({
       url: `/pages/ui/module/index?type=${type}`
     })
@@ -76,7 +77,6 @@ export default class UiPage extends Component {
               className='module'
               key={item.icon}
               data-type={item.type}
-              data-title={item.title}
               onClick={this.gotoModule}
             >
               <View className='module-img'>

@@ -224,7 +224,6 @@ export default class ModulePage extends Component {
                   className='list-item'
                   key={item.title}
                   data-type={item.type}
-                  data-title={item.title}
                   onClick={this.gotoComponent}
                 >
                   <View className='item-title'>{item.title}</View>
