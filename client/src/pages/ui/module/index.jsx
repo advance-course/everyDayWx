@@ -203,9 +203,11 @@ export default class ModulePage extends Component {
 
   render () {
     const type = getCurrentInstance().router.params.type
-    const title = ModulePage.itemInfo[type].title
-    const icon = ModulePage.itemInfo[type].icon
-    const list = ModulePage.itemInfo[type].list
+    // const title = ModulePage.itemInfo[type].title
+    // const icon = ModulePage.itemInfo[type].icon
+    // const list = ModulePage.itemInfo[type].list
+    const {title, icon, list} = ModulePage.itemInfo[type]
+
     return (
       <View className='component-page'>
           {
