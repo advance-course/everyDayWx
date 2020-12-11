@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import Taro, { render } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import './index.scss'
-import logo from './uiPage/logo.png'
-import basic from './uiPage/basic.png'
-import view from './uiPage/view.png'
-import feedback from './uiPage/feedback.png'
-import form from './uiPage/form.png'
-import layout from './uiPage/layout.png'
-import navigation from './uiPage/navigation.png'
-import advanced from './uiPage/advanced.png'
+import logo from './uiIcon/logo.png'
+import basic from './uiIcon/basic.png'
+import view from './uiIcon/view.png'
+import feedback from './uiIcon/feedback.png'
+import form from './uiIcon/form.png'
+import layout from './uiIcon/layout.png'
+import navigation from './uiIcon/navigation.png'
+import advanced from './uiIcon/advanced.png'
 
 export default class UiPage extends Component {
   static itemInfo = [
@@ -68,7 +68,7 @@ export default class UiPage extends Component {
     return (
       <View className='ui-page'>
         <View className='page-logo'>
-          <Image src={logo} className='img' mode='wtypethFix' />
+          <Image src={logo} className='img' />
         </View>
         <View className='page-title'>Everyday UI</View>
         <View className='module-list'>
@@ -80,7 +80,7 @@ export default class UiPage extends Component {
               onClick={this.gotoModule}
             >
               <View className='module-img'>
-                <Image src={item.icon} className='img' mode='wtypethFix' />
+                <Image src={item.icon} className='img' />
               </View>
               <View className='module-text'>
                 <View className='module-title'>{item.title}</View>

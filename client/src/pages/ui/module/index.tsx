@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import Taro, { Config, Current, getCurrentInstance  } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import '../pages.scss'
-import basic from '../uiPage/basic.png'
-import view from '../uiPage/view.png'
-import feedback from '../uiPage/feedback.png'
-import form from '../uiPage/form.png'
-import layout from '../uiPage/layout.png'
-import navigation from '../uiPage/navigation.png'
-import advanced from '../uiPage/advanced.png'
+import basic from '../uiIcon/basic.png'
+import view from '../uiIcon/view.png'
+import feedback from '../uiIcon/feedback.png'
+import form from '../uiIcon/form.png'
+import layout from '../uiIcon/layout.png'
+import navigation from '../uiIcon/navigation.png'
+import advanced from '../uiIcon/advanced.png'
 
 export default class ModulePage extends Component {
   static itemInfo = {
@@ -194,7 +194,7 @@ export default class ModulePage extends Component {
   }
 
   gotoComponent = e => {
-    const type = getCurrentInstance().router.params.type
+    const type = getCurrentInstance().router!.params.type || ''
     const componentType = e.currentTarget.dataset.type
     Taro.navigateTo({
       url: `/pages/ui/${type.toLowerCase()}/${componentType.toLowerCase()}/index`
@@ -202,7 +202,7 @@ export default class ModulePage extends Component {
   }
 
   render () {
-    const type = getCurrentInstance().router.params.type
+    const type = getCurrentInstance().router!.params.type || ''
     // const title = ModulePage.itemInfo[type].title
     // const icon = ModulePage.itemInfo[type].icon
     // const list = ModulePage.itemInfo[type].list
