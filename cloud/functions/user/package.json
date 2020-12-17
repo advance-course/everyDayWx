@@ -1,14 +1,15 @@
 {
-  "name": "login",
+  "name": "user",
   "version": "1.0.0",
-  "description": "",
+  "description": "用户登陆注册",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "yangbo",
   "license": "ISC",
   "dependencies": {
+    "tcb-router": "^1.1.2",
     "wx-server-sdk": "latest"
   }
 }

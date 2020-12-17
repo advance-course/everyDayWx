@@ -2,10 +2,11 @@ import {Config} from '@tarojs/taro'
 
 const config: Config = {
   pages: [
-    'pages/login/index',
     'pages/home/index',
     'pages/explore/index',
     'pages/profile/index',
+    
+    'pages/login/index',
     'pages/ui/index',
     'pages/ui/module/index',
     'pages/ui/basic/button/index',

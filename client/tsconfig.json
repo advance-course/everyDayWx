@@ -19,6 +19,7 @@
       "assets": ["assets"],
       "components": ["components"],
       "pages": ["pages"],
+      "api": ["api"],
       "store": ["store"],
       "utils": ["utils"]
     },
