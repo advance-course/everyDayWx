@@ -92,7 +92,7 @@ exports.main = async (event, context) => {
 
       ctx.body = { success: false, code: 40101, message: '无此用户，请注册' }
     } catch (e) {
-      ctx.body = { success: false, code: errCode, message: errMsg }
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
   })
 
@@ -108,7 +108,7 @@ exports.main = async (event, context) => {
       }).get();
       ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
     } catch (e) {
-      ctx.body = { success: false, code: errCode, message: errMsg }
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
   })
 
@@ -122,7 +122,7 @@ exports.main = async (event, context) => {
 
       ctx.body = { success: true, code: 200, message: '更新成功', data: null }
     } catch (e) {
-      ctx.body = { success: false, code: errCode, message: errMsg }
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
   })
 
@@ -172,7 +172,7 @@ exports.main = async (event, context) => {
       };
       ctx.body = { success: true, code: 200, message: '请求成功', data: result }
     } catch (e) {
-      ctx.body = { success: false, code: errCode, message: errMsg }
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
   })
 
