@@ -1,0 +1,20 @@
+.userInfoPart {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .userImg {
+    display: flex;
+    justify-content: center;
+    .avatarUrl {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+  }
+
+  .userName {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 35px;
+  }
+}
