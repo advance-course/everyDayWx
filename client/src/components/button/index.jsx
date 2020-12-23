@@ -16,7 +16,7 @@ class RButton extends Component {
   }
 
   render() {
-    const { type, size, disabled, loading, children, ...other } = this.props;
+    const { type, size, disabled, loading, icon, children, ...other } = this.props;
     const btnClassName = classnames({
       'btn': true,
       [`btn-${type}`]: true,
@@ -24,11 +24,11 @@ class RButton extends Component {
       'btn-disabled': disabled,
       'btn-loading': loading
     },)
-    
+
     const iconNode = icon ? <DIcon /> : null;
-    
+
     if(loading) {
-      iconNode = <DIcon loading />
+      return (iconNode = <DIcon loading />)
     }
 
     return(
