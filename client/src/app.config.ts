@@ -2,6 +2,7 @@ import {Config} from '@tarojs/taro'
 
 const config: Config = {
   pages: [
+    'pages/users/index',
     'pages/home/index',
     'pages/explore/index',
     'pages/profile/index',

@@ -1,0 +1,16 @@
+.user_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .user_item {
+    border: 2px black solid;
+    margin: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.user_avatar {
+  width: 140px;
+  height: 140px;
+}
