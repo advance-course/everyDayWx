@@ -2,15 +2,55 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  .user_item {
-    border: 2px black solid;
-    margin: 0 10px 10px 10px;
-    display: flex;
-    flex-direction: row;
-  }
+  background-color: #f7f8fb;
+  padding-top: 30px;
+}
+
+.user_item {
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px 2px #fff;
+  background-color: #fff;
+  margin: 0 30px 30px 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+
 }
 
 .user_avatar {
+  border-radius: 50%;
   width: 140px;
   height: 140px;
+}
+
+.user_desc {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 15px 20px;
+  
+  .user_nickName {
+    flex-grow: 1;
+    font-weight: 600;
+    font-size: 36px;
+  }
+
+  .user_city {
+    color: #7a7b7b;
+    font-size: 28px;
+  }
+}
+
+.user_type {
+  font-size: 28px;
+  font-weight: 400;
+  color: #7a7b7b;
+  margin: auto;
+
+  .type_content {
+    display: inline-block;
+    padding: 10px;
+    border: 3px solid #ddd;
+    border-radius: 10px;
+  }
 }
