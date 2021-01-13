@@ -7,7 +7,7 @@ import './index.scss'
 import logo from './logo/logo.png'
 
 export default function LoginPage() {
-  let bindGetUserInfo: CommonEventFunction<any> = async res => {
+  const bindGetUserInfo: CommonEventFunction<any> = async res => {
     try {
       Taro.showLoading({title: '登陆中...'})
       const userinfo = res.detail.userInfo

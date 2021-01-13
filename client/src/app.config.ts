@@ -2,7 +2,6 @@ import {Config} from '@tarojs/taro'
 
 const config: Config = {
   pages: [
-    'pages/users/index',
     'pages/home/index',
     'pages/explore/index',
     'pages/profile/index',
@@ -11,6 +10,7 @@ const config: Config = {
     'pages/ui/index',
     'pages/ui/module/index',
     'pages/ui/basic/button/index',
+    'pages/users/index',
   ],
   window: {
     backgroundTextStyle: 'light',

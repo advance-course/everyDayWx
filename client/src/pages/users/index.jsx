@@ -9,7 +9,6 @@ export default function UserPage() {
   useEffect(async() => {
     const response = await userListApi();
     setData(response.data)
-    console.log(response.data)
   }, [])
   return(
     <View className='user_list'>

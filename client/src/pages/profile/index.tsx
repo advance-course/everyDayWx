@@ -11,6 +11,7 @@ export default function Profile() {
   return (
     <View>
       <Button onClick={() => { Taro.navigateTo({ url: '/pages/ui/index' }) }}>查看UI</Button>
+      <Button onClick={() => { Taro.navigateTo({ url: '/pages/users/index' }) }}>查看用户列表</Button>
     </View>
   )
 }
