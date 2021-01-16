@@ -6953,7 +6953,7 @@ image-size@~0.5.0:
 
 immer@^8.0.0:
   version "8.0.0"
-  resolved "https://registry.npm.taobao.org/immer/download/immer-8.0.0.tgz?cache=0&sync_timestamp=1605654204833&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fimmer%2Fdownload%2Fimmer-8.0.0.tgz#08763549ba9dd7d5e2eb4bec504a8315bd9440c2"
+  resolved "https://registry.npm.taobao.org/immer/download/immer-8.0.0.tgz#08763549ba9dd7d5e2eb4bec504a8315bd9440c2"
   integrity sha1-CHY1Sbqd19Xi60vsUEqDFb2UQMI=
 
 import-cwd@^2.0.0:

@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, { useReachBottom } from '@tarojs/taro'
 import { View, Button, Image, Text, Input } from '@tarojs/components'
-import {userListApi} from 'api/user'
+import {userListApi, userTypeDesc} from 'api/user'
 import './index.scss'
 
-const userTypeDesc = {
-  1: '超级管理员',
-  2: '管理员',
-  3: '普通用户',
-  4: '尊贵VIP',
-}
-
 export default function UserPage() {
-  const [data, setData] = useState({list: []})
+  const [query, setQuery] = useState({})
+  const [list, setList] = useState([])
   useEffect(async() => {
-    const response = await userListApi();
-    setData(response.data)
-    console.log(response.data)
+    const response = await userListApi({current: 1, pageSize: 10});
+    setQuery(response.data)
+    setList(response.data.list)
   }, [])
+
+  useReachBottom(async() => {
+    if(query.current * query.pageSize < query.total ) {
+      const newQuery = {
+        ...query,
+        current: query.current + 1
+      }
+       const response = await userListApi(newQuery)
+       setList([...list, ...response.data.list])
+       setQuery(newQuery)
+    } else {
+      Taro.showToast({
+        title: '已经没有更多的用户信息了',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+  })
+  
   return(
     <View className='user_list'>
     {
-      data.list.map(item => (
+      list.map(item => (
         <View className='user_item' key={item.id}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
