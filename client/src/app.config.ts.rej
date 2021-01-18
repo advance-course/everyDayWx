@@ -1,0 +1,9 @@
+diff a/client/src/app.config.ts b/client/src/app.config.ts	(rejected hunks)
+@@ -2,6 +2,7 @@
+ 
+ const config: Config = {
+   pages: [
++    'pages/users/index',
+     'pages/home/index',
+     'pages/explore/index',
+     'pages/profile/index',
