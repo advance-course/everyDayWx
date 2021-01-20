@@ -35,7 +35,7 @@ export default function UserPage() {
     <View className='user_list'>
     {
       list.map(item => (
-        <View className='user_item' key={item.id}>
+        <View className='user_item' key={item.id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
             <Text className='user_nickName'>{`${item.nickName}`}</Text>

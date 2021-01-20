@@ -11,6 +11,7 @@ const config: Config = {
     'pages/ui/module/index',
     'pages/ui/basic/button/index',
     'pages/users/index',
+    'pages/detail/index',
   ],
   window: {
     backgroundTextStyle: 'light',

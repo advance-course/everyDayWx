@@ -11,6 +11,7 @@ export interface Userinfo extends UserInfo {
    * 3： 普通用户
    * 4： 付费用户
    */
+  createTime: number,
   type?: 1 | 2 | 3 | 4,
   phone?: string
 }
@@ -57,4 +58,10 @@ export function userUpdateApi(userid: string, params: Userinfo) {
    return http.get<string>('user/v1/update/info', {
      userid, ...params
    })
+}
+
+export function userInfoApi(userid: string) {
+  return http.get<Userinfo>('user/v1/info', {
+    userid
+  })
 }

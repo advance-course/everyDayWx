@@ -1,0 +1,182 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f2f5fb;
+  .info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 50px 0;
+    .bg {
+      position: absolute;
+      top: 90px;
+      left: 0;
+      width: 100%;
+      height: auto;
+    }
+    .avatar-border {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: linear-gradient(#aaf0d8, #2ed);
+      padding: 8px;
+      .avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .name {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+      font-size: 46px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      .sex {
+        position: absolute;
+        right: -60px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: auto;
+      }
+    }
+    .location {
+      font-size: 36px;
+      color: #191970;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  }
+  .detail {
+    flex: 1;
+    height: 100%;
+    padding: 40px;
+    border-radius: 50px 50px 0 0;
+    background: #fff;
+    letter-spacing: 2px;
+    View {
+      display: flex;
+      align-items: center;
+      height: 130px;
+      padding: 20px 40px;
+      font-size: 34px;
+      image {
+        width: 70px;
+        height: 70px;
+        margin-right: 70px;
+      }
+    }
+  }
+}
+
+@keyframes ldio-avcon1hx5rb {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ldio-avcon1hx5rb View {
+  left: 94px;
+  top: 48px;
+  position: absolute;
+  animation: ldio-avcon1hx5rb linear 1s infinite;
+  background: #93dbe9;
+  width: 12px;
+  height: 24px;
+  border-radius: 6px / 12px;
+  transform-origin: 6px 52px;
+}
+.ldio-avcon1hx5rb View:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -0.9166666666666666s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -0.8333333333333334s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.75s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.6666666666666666s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.5833333333333334s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.5s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.4166666666666667s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.3333333333333333s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.25s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.16666666666666666s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.08333333333333333s;
+  background: #93dbe9;
+}
+.ldio-avcon1hx5rb View:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+  background: #93dbe9;
+}
+.loadingio-spinner-spinner-ph286q2307f {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  // background: #f1f2f3;
+}
+.ldio-avcon1hx5rb {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-avcon1hx5rb View {
+  box-sizing: content-box;
+}
