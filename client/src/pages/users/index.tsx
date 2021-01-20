@@ -6,12 +6,16 @@ import './index.scss'
 
 export default function UserPage() {
   const [query, setQuery] = useState({})
-  const [list, setList] = useState([])
-  useEffect(async() => {
+  const [list, setList] = useState<any[]>([])
+  useEffect(() => {
+    fetchList()
+  }, [])
+
+  const fetchList = async() => {
     const response = await userListApi({current: 1, pageSize: 10});
     setQuery(response.data)
     setList(response.data.list)
-  }, [])
+  }
 
   useReachBottom(async() => {
     if(query.current * query.pageSize < query.total ) {
