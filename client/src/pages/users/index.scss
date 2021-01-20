@@ -55,3 +55,12 @@
     border-radius: 10px;
   }
 }
+
+.user_list_bottom {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  .bottom_desc {
+    display: inline-block;
+    color: rgb(187, 186, 186);
+  }
+}
