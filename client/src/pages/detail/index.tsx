@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import useLoadData from '../../hooks/useLoadData'
 import Taro, { getCurrentInstance } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import { userInfoApi, userTypeDesc, Userinfo } from "api/user";
@@ -24,18 +25,8 @@ const genderIcon = {
 }
 
 export default function Detail() {
-  const [details, setDetails] = useState<Userinfo>(defaultDetails)
-  const [loading, setLoading] = useState(true)
   const id = getCurrentInstance().router?.params.id || ''
-  useEffect(() => {
-    userInfoApi(id)
-      .then(res => {
-        setDetails(res.data)
-        setLoading(false)
-        console.log(res.data)
-      })
-      .catch(err => console.error(err))
-  }, [])
+  const { loading, data: details, setRefresh } = useLoadData<Userinfo, string>(userInfoApi, id, defaultDetails)
 
   if (loading) {
     return (
@@ -51,7 +42,7 @@ export default function Detail() {
     <View className='container'>
       <View className='info'>
         <Image className='bg' mode='widthFix' src={images.bg} />
-        <View className='avatar-border'> <Image className='avatar' src={details.avatarUrl || images.avatar} /></View>
+        <View className='avatar-border'> <Image className='avatar' onClick={() => setRefresh(true)} src={details.avatarUrl || images.avatar} /></View>
         <View className='name'>
           {details.nickName || 'anonymous'}
           <Image className='sex' mode='widthFix' src={genderIcon[details.gender]} />
