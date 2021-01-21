@@ -6,3 +6,4 @@ export {default as male} from './male.png';
 export {default as language} from './language.png';
 export {default as bg} from './bg.png';
 export {default as user} from './user.png';
+export {default as edit} from './edit.png';

@@ -12,6 +12,7 @@ export interface Userinfo extends UserInfo {
    * 4： 付费用户
    */
   createTime: number,
+  district: string,
   type?: 1 | 2 | 3 | 4,
   phone?: string
 }

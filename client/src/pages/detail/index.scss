@@ -57,6 +57,7 @@
     }
   }
   .detail {
+    position: relative;
     flex: 1;
     height: 100%;
     padding: 40px;
@@ -73,6 +74,14 @@
         width: 70px;
         height: 70px;
         margin-right: 70px;
+      }
+      .edit {
+        position: absolute;
+        right: 0;
+        image {
+          width: 55px;
+          height: 55px;
+        }
       }
     }
   }
