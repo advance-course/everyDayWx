@@ -3,6 +3,7 @@ import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { View, Button, Image, Text, Input } from '@tarojs/components'
 import {Userinfo, userListApi, userTypeDesc} from 'api/user'
 import './index.scss'
+import usePagination from './usePagination'
 
 export interface Page<T> {
   pageSize?: number,
@@ -26,10 +27,7 @@ export const defQueryParams = {
 }
 
 export default function UserPage() {
-  const [queryParams, setQueryParams] = useState(defQueryParams)
-  const [data, setData] = useState<Page<Userinfo>>(defPageData)
-  const [list, setList] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
+  const { loading, data, list, fetchList,queryParams, setQueryParams, setLoading } = usePagination(userListApi, defQueryParams)
   const [isBottom, setIsBottom] = useState(false);
 
   useEffect(() => {
@@ -50,18 +48,6 @@ export default function UserPage() {
     ) 
   }
 
-  const fetchList = async(params) => {
-    setLoading(true)
-    const response = await userListApi(params);
-    setData(response.data)
-    console.log(response.data)
-    if(params.current === 1) {
-      setList(response.data.list)
-    } else {
-      setList([...list, ...response.data.list])
-    }
-    setLoading(false)
-  }
 
   useReachBottom(async() => {
     if(!data.lastPage) {
@@ -77,8 +63,7 @@ export default function UserPage() {
   })
 
   usePullDownRefresh(async() => {
-    await fetchList(queryParams)
-    Taro.stopPullDownRefresh()
+    setLoading(true)
   })
   
   return(
