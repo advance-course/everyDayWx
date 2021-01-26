@@ -41,25 +41,29 @@ const userType = [
 export default function Detail() {
   const id = getCurrentInstance().router?.params.id || ''
   const { loading, data: details, setRefresh } = useLoadData<Userinfo, string>(userInfoApi, id, defaultDetails)
-  let admin
-  if (details && details.type) {
-    admin = details.type < 3
-    details.type === 2 && userType.shift()
+  const [updateData, setUpdateData] = useState({})
+
+  const myInfo = Taro.getStorageSync('userinfo')
+  let admin = false
+  if (myInfo && myInfo.type) {
+    admin = myInfo.type < 3
+    if (myInfo.type === 2 && userType.length === 4) {
+      userType.shift()
+    }
   }
-  
-  async function updateUserInfo(updateData) {
-    updateData = {
+
+  useEffect(() => {
+    const data = {
       ...details,
       ...updateData
     }
-    delete updateData._id
-    try {
-      await userUpdateApi(id, updateData)
-      setRefresh(true)
-    } catch (error) {
-      console.error(error)
+    delete data._id
+    if (!loading) {
+      userUpdateApi(id, data)
+        .then(() => setRefresh(true))
+        .catch(error => console.error(error))
     }
-  }
+  }, [updateData])
 
   function changeRegion(e) {
     if (details.country !== 'China') {
@@ -75,17 +79,17 @@ export default function Detail() {
       city: e.detail.value[1],
       district: e.detail.value[2]
     }
-    updateUserInfo(region)
+    setUpdateData(region)
   }
 
   function changeLanguage(e) {
-    updateUserInfo({
+    setUpdateData({
       language: language[e.detail.value].value
     })
   }
 
   function changeUserType(e) {
-    updateUserInfo({
+    setUpdateData({
       type: userType[e.detail.value].value
     })
   }
@@ -104,26 +108,32 @@ export default function Detail() {
     <View className='container'>
       <View className='info'>
         <Image className='bg' mode='widthFix' src={images.bg} />
-        <View className='avatar-border'> <Image className='avatar' onClick={() => setRefresh(true)} src={details.avatarUrl || images.avatar} /></View>
+        <View className='avatar-border'>
+          <Image className='avatar' src={details.avatarUrl || images.avatar} />
+        </View>
         <View className='name'>
           {details.nickName || 'anonymous'}
           <Image className='sex' mode='widthFix' src={genderIcon[details.gender]} />
         </View>
         <View className='location'>{details.province} {details.country}</View>
       </View>
+
       <View className='detail'>
         <View>
           <Image src={images.user} /> {details.type ? userTypeDesc[details.type] : '无'}
-          {admin && <Picker className="edit" mode='selector' rangeKey='label' value={0} range={userType} onChange={(e) => changeUserType(e)}> <Image src={images.edit} /> </Picker>}
+          {admin && <Picker className="edit" mode='selector' rangeKey='label' value={0} range={userType} onChange={changeUserType}>
+            <Image src={images.edit} /> </Picker>}
         </View>
         <View>
           <Image src={images.city} /> {`${details.city || '无'} ${details.district || ''}`}
-          {admin && <Picker className="edit" mode='region' value={['1', '2', '3']} onChange={(e) => changeRegion(e)}> <Image src={images.edit} /> </Picker>}
+          {admin && <Picker className="edit" mode='region' value={[]} onChange={changeRegion}>
+            <Image src={images.edit} /> </Picker>}
         </View>
         <View> <Image src={images.date} /> {details.createTime ? new Date(details.createTime).toLocaleDateString() : '无'} </View>
         <View>
           <Image src={images.language} /> {details.language || '无'}
-          {admin && <Picker className="edit" mode='selector' rangeKey='label' value={0} range={language} onChange={(e) => changeLanguage(e)}> <Image src={images.edit} /> </Picker>}
+          {admin && <Picker className="edit" mode='selector' rangeKey='label' value={0} range={language} onChange={changeLanguage}>
+            <Image src={images.edit} /> </Picker>}
         </View>
       </View>
     </View>

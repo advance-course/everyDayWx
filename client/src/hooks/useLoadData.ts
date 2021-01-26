@@ -17,8 +17,6 @@ export default function useLoadData<T, P>(
       .then(res => {
         setData(res.data);
         setLoading(false);
-        console.log("hooks", res.data);
-        console.log("refresh", refresh);
       })
       .catch(err => console.error(err));
     refresh && setRefresh(false);
