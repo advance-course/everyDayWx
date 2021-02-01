@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro'
-import { View, Button, Image, Text, Input } from '@tarojs/components'
-import {Userinfo, userListApi, userTypeDesc} from 'api/user'
+import { View, Image, Text } from '@tarojs/components'
+import { userListApi, userTypeDesc } from 'api/user'
 import './index.scss'
 import usePagination from './usePagination'
+import PaginationProvider from '../../components/PaginationProvider'
 
 export interface Page<T> {
   pageSize?: number,
@@ -27,49 +28,24 @@ export const defQueryParams = {
 }
 
 export default function UserPage() {
-  const { loading, data, list, fetchList,queryParams, setQueryParams, setLoading } = usePagination(userListApi, defQueryParams)
-  const [isBottom, setIsBottom] = useState(false);
+  const { loading, increasing, isBottom, list, setLoading, setIncreasing } = usePagination(userListApi, defQueryParams)
 
-  useEffect(() => {
-    fetchList(queryParams)
-  }, [])
-
-  if(loading) {
-    Taro.showLoading({title: '数据加载中'})
-  } else {
-    Taro.hideLoading()
-  }
-
-  function ListFooter() {
-    return (    
-      <View className="user_list_bottom">
-        <Text className="bottom_desc">---没有更多的信息了---</Text>
-      </View>
-    ) 
-  }
-
-
-  useReachBottom(async() => {
-    if(!data.lastPage) {
-      const newQuery = {
-        ...queryParams,
-        current: queryParams.current + 1
-      }
-      setQueryParams(newQuery)
-      fetchList(newQuery)
-    } else {
-      setIsBottom(true)
-    }
+  useReachBottom(() => {
+    setIncreasing(true)
   })
 
   usePullDownRefresh(async() => {
     setLoading(true)
+    setIncreasing(false)
   })
   
   return(
-    <View className='user_list'>
-    {
-      list.map(item => (
+    <PaginationProvider 
+      loading={loading} 
+      increasing={increasing}
+      isBottom={isBottom}
+      list={list}
+      renderItem={(item) => (
         <View className='user_item' key={item.id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
@@ -80,9 +56,6 @@ export default function UserPage() {
             <Text className="type_content">{`${userTypeDesc[item.type]}`}</Text>
           </View>
         </View>
-      ))
-    }
-    {isBottom ? <ListFooter /> : null}
-    </View>
+      )} />
   );
 }
