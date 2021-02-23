@@ -1,0 +1,23 @@
+.container {
+  padding: 0 40px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  .title {
+    font-size: 46px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .input {
+    margin: 40px 0;
+    padding: 15px 20px;
+    border: 1px solid #000;
+  }
+  .tips {
+    margin: 20px 0 40px;
+  }
+  .love-heart {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    height: auto;
+  }
+}
