@@ -4,8 +4,10 @@ import http from "utils/http";
 export interface WishInfo {
   _id?: string;
   openid?: string;
-  title?: string;
+  title: string;
   state?: number;
+  createTime?: Date;
+  modifyTime?: Date;
 }
 
 export function createWishApi(wishinfo: WishInfo) {
@@ -20,6 +22,9 @@ export function getWishDetailApi(_id: string) {
   return http.get<WishInfo>("wish/v1/detail", { _id });
 }
 
-export function editWishApi(wishinfo: WishInfo) {
-  return http.get<WishInfo>("wish/v1/edit", wishinfo);
+export function editWishApi(_id: string, wishinfo: WishInfo) {
+  return http.get<string>("wish/v1/edit", {
+    _id,
+    ...wishinfo
+  });
 }

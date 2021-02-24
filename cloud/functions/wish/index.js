@@ -9,8 +9,6 @@ cloud.init({
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    const { OPENID } = cloud.getWXContext()
-
     const db = cloud.database();
     const wish = db.collection('wish');
     const app = new TcbRouter({
@@ -29,7 +27,9 @@ exports.main = async (event, context) => {
                 data: {
                     openid,
                     title,
-                    state: 1 // 1创建 2本人完成 3对方完成 4双方完成
+                    state: 1, // 1创建 2本人完成 3对方完成 4双方完成
+                    createTime: db.serverDate(),
+                    modifyTime: db.serverDate()
                 }
             })
             ctx.body = {
@@ -66,7 +66,8 @@ exports.main = async (event, context) => {
                 }
                 return
             }
-            const result = await wish.where({
+            const wish2 = db.collection('wish').orderBy('modifyTime', 'desc');
+            const result = await wish2.where({
                 openid
             })
             const count = await result.count()
@@ -134,7 +135,10 @@ exports.main = async (event, context) => {
         const { _id, title } = event
         try {
             await wish.doc(_id).update({
-                data: { title }
+                data: {
+                    title,
+                    modifyTime: db.serverDate()
+                }
             })
             ctx.body = {
                 success: true,
@@ -142,7 +146,6 @@ exports.main = async (event, context) => {
                 message: '请求成功',
             }
         } catch (error) {
-            console.error(error)
             ctx.body = {
                 success: false,
                 code: error.errCode,

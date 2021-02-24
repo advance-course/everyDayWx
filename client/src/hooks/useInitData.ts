@@ -15,37 +15,38 @@ export default function useInitData<T>(config: config<T>) {
   const { initApi, updateApi, id, params } = config;
   const [data, setData] = useState<T>(params);
   const [errMsg, setErrMsg] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    initApi(id)
-      .then(res => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setErrMsg(err);
-        console.error(err);
-      });
+    if (id) {
+      setLoading(true);
+      initApi(id)
+        .then(res => {
+          setData(res.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setErrMsg(err);
+          console.error(err);
+        });
+    }
   }, []);
 
-  const updateData = function(newData) {
-    newData = {
-      ...data,
-      ...newData
-    };
-    delete newData._id;
-    setLoading(true);
-    updateApi(id, newData)
-      .then(() => {
-        setData(newData);
-        setLoading(false);
-      })
-      .catch(err => {
-        setErrMsg(err);
-        console.error(err);
-      });
+  const updateData = function(data) {
+    return new Promise((resolve, reject) => {
+      setLoading(true);
+      updateApi(id, data)
+        .then(res => {
+          setData(data);
+          setLoading(false);
+          resolve(res);
+        })
+        .catch(err => {
+          setErrMsg(err);
+          reject(err);
+          console.error(err);
+        });
+    });
   };
 
   return {

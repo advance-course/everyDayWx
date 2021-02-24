@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import Taro from "@tarojs/taro";
-import { View } from '@tarojs/components'
-import "./index.scss"
+import { View, Image } from '@tarojs/components'
 import { getAllWishApi, WishInfo } from "api/wish";
+import "./index.scss"
+import createIcon from './create.png'
 
 const openId = 'o-Owu5KuzM2IK_lsfEVcNiu4lY1Q'
 
-
 export default function Index() {
-    const [list, setList] = useState<WishInfo[]>([{ title: 'default', _id: '0' }])
+    const [list, setList] = useState<WishInfo[]>([{ title: 'default' }])
     const [refresh, setRefresh] = useState(false)
+
+    Taro.setNavigationBarTitle({
+        title: '首页'
+    })
+
     Taro.eventCenter.on('refreshWish', () => {
         setRefresh(true)
     })
-    Taro.eventCenter.on('updateWish', ({ _id, title }) => {
-        const updateList = list.map(wish => {
-            if (wish._id === _id) {
-                wish.title = title
+    
+    Taro.eventCenter.on('updateWish', (updateWish) => {
+        let updateIndex
+        const updateList = list.map((wish, index) => {
+            if (wish._id === updateWish._id) {
+                updateIndex = index
             }
             return wish
         })
+        updateList.splice(updateIndex, 1)
+        updateList.unshift(updateWish)
         setList(updateList)
     })
+
     useEffect(() => {
         getAllWishApi({
             openid: openId,
@@ -33,9 +43,7 @@ export default function Index() {
             })
             .catch(err => console.error(err))
     }, [refresh])
-    Taro.setNavigationBarTitle({
-        title: '首页'
-    })
+
     return (
         <View className="container">
             <View className="title">心愿清单</View>
@@ -50,6 +58,7 @@ export default function Index() {
                     )
                 })
             }
+            <Image className="create-icon" mode="widthFix" src={createIcon} onClick={() => Taro.navigateTo({ url: `/pages/wish/edit/index` })} ></Image>
         </View>
     )
 }
