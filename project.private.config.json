@@ -1,0 +1,28 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "心愿清单 创建/编辑页",
+          "pathName": "pages/wish/edit/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "心愿清单 首页",
+          "pathName": "pages/wish/index/index",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

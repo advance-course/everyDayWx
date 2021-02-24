@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <View className='index'>
       <Text>home page.</Text>
+      <View className="wish" onClick={()=> Taro.navigateTo({url: '/pages/wish/index/index'})}>心愿清单</View>
     </View>
   )
 }

@@ -13,6 +13,7 @@ const config: Config = {
     'pages/users/index',
     'pages/detail/index',
 
+    'pages/wish/index/index',
     'pages/wish/edit/index',
   ],
   window: {

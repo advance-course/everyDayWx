@@ -1,0 +1,16 @@
+.container {
+  padding: 0 40px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  .title {
+    font-size: 46px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .wish-card {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid gray;
+    padding: 10px 20px;
+    margin: 20px 0;
+  }
+}
