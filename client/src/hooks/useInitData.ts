@@ -14,7 +14,7 @@ interface config<T> {
 export default function useInitData<T>(config: config<T>) {
   const { initApi, updateApi, id, params } = config;
   const [data, setData] = useState<T>(params);
-  const [errMsg, setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,19 +32,25 @@ export default function useInitData<T>(config: config<T>) {
     }
   }, []);
 
-  const updateData = function(data) {
+  const updateData = function(newData) {
+    const updateData = {
+      ...data,
+      ...newData
+    };
+    delete updateData._id
     return new Promise((resolve, reject) => {
       setLoading(true);
-      updateApi(id, data)
+      updateApi(id, updateData)
         .then(res => {
-          setData(data);
+          setData(updateData);
           setLoading(false);
           resolve(res);
         })
         .catch(err => {
-          setErrMsg(err);
-          reject(err);
           console.error(err);
+          setLoading(false);
+          setErrMsg(err.message);
+          reject(err);
         });
     });
   };

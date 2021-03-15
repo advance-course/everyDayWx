@@ -40,11 +40,11 @@ export default function Detail() {
 
         <View className='detail'>
           <ListRow.UserPicker userType={myInfo.type} image={images.user} text={data.type ? userTypeDesc[data.type] : '无'} changeFn={value => updateData(value)} ></ListRow.UserPicker>
-          <ListRow.CityPicker image={images.city} admin={admin} country={data.country} text={`${data.city || '无'} ${data.district || ''}`} changeFn={value => updateData(value)} ></ListRow.CityPicker>
+          <ListRow.CityPicker image={images.city} admin={false} country={data.country} text={`${data.city || '无'} ${data.district || ''}`} changeFn={value => updateData(value)} ></ListRow.CityPicker>
           <View>
             <Image src={images.date} /> {data.createTime ? new Date(data.createTime).toLocaleDateString() : '无'}
           </View>
-          <ListRow.Picker image={images.language} admin={admin} range={language} text={data.language || '无'} changeFn={(e) => updateData({ language: language[e.detail.value].value })} ></ListRow.Picker>
+          <ListRow.Picker image={images.language} admin={false} range={language} text={data.language || '无'} changeFn={(e) => updateData({ language: language[e.detail.value].value })} ></ListRow.Picker>
         </View>
 
       </View>
