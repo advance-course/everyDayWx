@@ -66,7 +66,10 @@ export default function usePagination<T>(
 
   function setParams(option: PaginationParam = {}, refreshing?: boolean) {
     const _param = refreshing ? { ...params, ...option, ...defPaginationParams } : { ...params, ...option };
-    state.params = _param;
+    // state.params = _param;
+    setState(produce(state, df => {
+      df.params = _param
+    }))
     if (refreshing) {
       setState(produce(state, df => {
         df.loading = true

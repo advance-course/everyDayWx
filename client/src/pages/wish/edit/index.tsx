@@ -19,9 +19,7 @@ export default function Edit() {
     })
     let titleInput = data.title
 
-    Taro.setNavigationBarTitle({
-        title: _id ? '编辑心愿' : '创建心愿'
-    })
+    Taro.setNavigationBarTitle({ title: _id ? '编辑心愿' : '创建心愿' })
 
     const createWish = async function () {
         if (!checkInput()) return
