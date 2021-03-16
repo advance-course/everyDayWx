@@ -7,14 +7,14 @@ import './index.scss'
 interface PaginationProviderProps<T> {
   loading: boolean,
   increasing: boolean,
-  isBottom: boolean,
+  lastPage: boolean
   errMsg?: string,
   list: T[],
   renderItem: (item) => JSX.Element
 }
 
 export default function PaginationProvider(props: PaginationProviderProps<any>) {
-  const {loading, isBottom, increasing, errMsg, list, renderItem} = props
+  const {loading, increasing, lastPage, errMsg, list, renderItem} = props
   
   useEffect(() => {
     if(loading ) {
@@ -49,7 +49,7 @@ export default function PaginationProvider(props: PaginationProviderProps<any>) 
         // ))
         list.map(renderItem)
       }
-      <Footer isBottom={isBottom} increasing={increasing} />
+      <Footer lastPage={lastPage} increasing={increasing} loading={loading}/>
     </View>
   )
 }

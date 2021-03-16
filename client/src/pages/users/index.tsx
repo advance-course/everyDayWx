@@ -3,8 +3,8 @@ import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { userListApi, userTypeDesc } from 'api/user'
 import './index.scss'
-import usePagination from './usePagination'
-import PaginationProvider from '../../components/PaginationProvider'
+import usePagination from '../../hooks/usePagination/index'
+import PaginationProvider from 'components/PaginationProvider'
 
 export interface Page<T> {
   pageSize?: number,
@@ -27,26 +27,35 @@ export const defQueryParams = {
   pageSize: 10
 }
 
-export default function UserPage() {
-  const { loading, increasing, isBottom, list, setLoading, setIncreasing } = usePagination(userListApi, defQueryParams)
-
+export default function index() {
+  const { list, loading, increasing, errMsg, setIncreasing, setLoading, updateList } = usePagination(userListApi, defQueryParams, false);
+  
   useReachBottom(() => {
-    setIncreasing(true)
+    if(!list.pagination.lastPage) {
+      setIncreasing(true)
+    }
   })
 
-  usePullDownRefresh(async() => {
+  usePullDownRefresh(() => {
     setLoading(true)
-    setIncreasing(false)
+  })
+
+  Taro.eventCenter.on('refreshUserList', () => setLoading(true))
+
+  Taro.eventCenter.on('updateUserInfo', updateUserInfo => {
+      const updateIndex = list.list.findIndex(userInfo => userInfo._id === updateUserInfo._id)
+      updateList(updateUserInfo, updateIndex)
   })
   
   return(
     <PaginationProvider 
       loading={loading} 
       increasing={increasing}
-      isBottom={isBottom}
-      list={list}
+      lastPage={list.pagination.lastPage || true}
+      list={list.list}
+      errMsg={errMsg}
       renderItem={(item) => (
-        <View className='user_item' key={item.id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>
+        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
             <Text className='user_nickName'>{`${item.nickName}`}</Text>
@@ -58,4 +67,5 @@ export default function UserPage() {
         </View>
       )} />
   );
+
 }

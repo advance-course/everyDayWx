@@ -23,7 +23,11 @@ export default function Index() {
         updateList(updateWish, updateIndex)
     })
 
-    useReachBottom(() => !list.pagination.lastPage && setIncreasing(true))
+    useReachBottom(() => {
+        if(!list.pagination.lastPage) {
+            setIncreasing(true)
+        }
+    })
 
     usePullDownRefresh(() => setLoading(true))
 
@@ -35,7 +39,7 @@ export default function Index() {
                 loading={loading}
                 increasing={increasing}
                 list={list.list}
-                isBottom={list.pagination.lastPage || true}
+                lastPage={list.pagination.lastPage || true}
                 renderItem={(item => {
                     return (
                         <View className="wish-card">
