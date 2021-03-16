@@ -22,6 +22,12 @@ export default function Detail() {
   const myInfo = Taro.getStorageSync('userinfo')
   const admin = myInfo.type < 3
 
+  const updateUserInfo = async function (value) {
+    await updateData(value)
+    value._id = id
+    Taro.eventCenter.trigger('updateUserInfo', value)
+  }
+  
   return (
     <Provider errMsg={errMsg} loading={loading}>
       <View className='container'>
@@ -39,7 +45,7 @@ export default function Detail() {
         </View>
 
         <View className='detail'>
-          <ListRow.UserPicker userType={myInfo.type} image={images.user} text={data.type ? userTypeDesc[data.type] : '无'} changeFn={value => updateData(value)} ></ListRow.UserPicker>
+          <ListRow.UserPicker userType={myInfo.type} image={images.user} text={data.type ? userTypeDesc[data.type] : '无'} changeFn={updateUserInfo} ></ListRow.UserPicker>
           <ListRow.CityPicker image={images.city} admin={false} country={data.country} text={`${data.city || '无'} ${data.district || ''}`} changeFn={value => updateData(value)} ></ListRow.CityPicker>
           <View>
             <Image src={images.date} /> {data.createTime ? new Date(data.createTime).toLocaleDateString() : '无'}
