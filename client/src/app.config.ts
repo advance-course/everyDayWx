@@ -11,11 +11,12 @@ const config: Config = {
     'pages/ui/module/index',
     'pages/ui/basic/button/index',
     'pages/users/index',
-    'pages/detail/index',
+    'pages/users/detail/index',
 
     'pages/wish/index/index',
     'pages/wish/edit/index',
   ],
+
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

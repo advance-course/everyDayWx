@@ -1,5 +1,11 @@
+page {
+  background: #f7f8fb;
+}
+
 .container {
-  padding: 0 40px;
+  padding: 20px 0 0 0;
+  margin: 20px 20px;
+  border-radius: 20px;
   font-family: PingFangSC-Medium, PingFang SC;
   .title {
     margin-bottom: 20px;
@@ -9,9 +15,9 @@
   .wish-card {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
-    margin: 20px 0;
-    border: 1px solid gray;
+    padding: 10px 10px;
+    margin: 0 20px 20px 20px;
+    border-bottom: 1px solid #e7e7e7;
   }
   .create-icon {
     position: fixed;

@@ -8,7 +8,7 @@ export default function Footer(props: {lastPage: boolean, increasing: boolean, l
   return (
     <View className="paginationProvider_footer">
       { (increasing) && <Text className="footer_desc">数据加载中...</Text>}
-      { (lastPage && !loading && !increasing) && <Text className="footer_desc">---没有更多的信息了---</Text>}
+      { (lastPage && !loading && !increasing) && <Text className="footer_desc">---END---</Text>}
     </View>
   )
 }

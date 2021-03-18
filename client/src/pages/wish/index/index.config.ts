@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: '首页',
+  navigationBarTitleText: '心愿清单',
   enablePullDownRefresh: true
 }

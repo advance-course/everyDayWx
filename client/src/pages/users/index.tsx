@@ -48,14 +48,15 @@ export default function index() {
   })
   
   return(
-    <PaginationProvider 
+    <PaginationProvider
+      className='container'
       loading={loading} 
       increasing={increasing}
       lastPage={list.pagination.lastPage || true}
       list={list.list}
       errMsg={errMsg}
       renderItem={(item) => (
-        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>
+        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/users/detail/index?id=${item._id}` }) }}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
             <Text className='user_nickName'>{`${item.nickName}`}</Text>

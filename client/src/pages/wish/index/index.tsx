@@ -33,9 +33,9 @@ export default function Index() {
 
     return (
         <View className="container">
-            <View className="title">心愿清单</View>
             <View className="input-label">我们的心愿</View>
             <PaginationProvider
+                className='container'
                 loading={loading}
                 increasing={increasing}
                 list={list.list}
