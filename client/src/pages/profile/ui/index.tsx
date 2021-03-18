@@ -60,7 +60,7 @@ export default class UiPage extends Component {
     const type = e.currentTarget.dataset.type
     console.log(e.currentTarget.dataset)
     Taro.navigateTo({
-      url: `/pages/ui/module/index?type=${type}`
+      url: `/pages/profile/ui/module/index?type=${type}`
     })
   }
 

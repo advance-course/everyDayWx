@@ -2,9 +2,9 @@ import React from "react";
 import Taro, { getCurrentInstance } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import { userInfoApi, userUpdateApi, userTypeDesc, Userinfo } from "api/user";
-import useInitData from '../../hooks/useInitData'
-import ListRow from "../../components/ListRow/index";
-import Provider from "../../components/Provider/index";
+import useInitData from 'hooks/useInitData'
+import ListRow from "components/ListRow";
+import Provider from "components/Provider";
 import * as images from './img/images'
 import { defaultDetails, genderIcon, language } from './config'
 import "./index.scss";

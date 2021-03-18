@@ -4,8 +4,8 @@ import { View, Image } from '@tarojs/components'
 import { getAllWishApi, WishInfo } from "api/wish";
 import "./index.scss"
 import createIcon from './create.png'
-import usePagination from '../../../hooks/usePagination/index'
-import PaginationProvider from '../../../components/PaginationProvider'
+import usePagination from 'hooks/usePagination/index'
+import PaginationProvider from 'components/PaginationProvider'
 
 const openId = 'o-Owu5KuzM2IK_lsfEVcNiu4lY1Q'
 
@@ -44,12 +44,12 @@ export default function Index() {
                     return (
                         <View className="wish-card">
                             <View>{item.title}</View>
-                            <View onClick={() => Taro.navigateTo({ url: `/pages/wish/edit/index?_id=${item._id}` })}>编辑</View>
+                            <View onClick={() => Taro.navigateTo({ url: `/pages/home/wish/edit/index?_id=${item._id}` })}>编辑</View>
                         </View>
                     )
                 })}
             />
-            <Image className="create-icon" mode="widthFix" src={createIcon} onClick={() => Taro.navigateTo({ url: `/pages/wish/edit/index` })} ></Image>
+            <Image className="create-icon" mode="widthFix" src={createIcon} onClick={() => Taro.navigateTo({ url: `/pages/home/wish/edit/index` })} ></Image>
         </View>
     )
 }

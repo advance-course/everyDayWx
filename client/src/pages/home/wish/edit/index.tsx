@@ -2,8 +2,8 @@ import React from 'react'
 import Taro, { getCurrentInstance } from "@tarojs/taro";
 import { View, Input, Image } from '@tarojs/components'
 import { createWishApi, getWishDetailApi, editWishApi, WishInfo } from "api/wish";
-import useInitData from '../../../hooks/useInitData'
-import Provider from "../../../components/Provider/index";
+import useInitData from 'hooks/useInitData'
+import Provider from "components/Provider/index";
 import "./index.scss"
 import loveHeart from './love-heart.png'
 
