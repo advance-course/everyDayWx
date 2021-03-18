@@ -10,6 +10,7 @@ const config: Config = {
     'pages/home/login/index',
     'pages/home/wish/index/index',
     'pages/home/wish/edit/index',
+    'pages/home/lover/index/index',
 
     'pages/profile/ui/index',
     'pages/profile/ui/module/index',

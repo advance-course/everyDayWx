@@ -10,7 +10,6 @@ class App extends Component {
         traceUser: true
       })
     }
-
     const updateManager = Taro.getUpdateManager()
     updateManager.onUpdateReady(() => {
       updateManager.applyUpdate()

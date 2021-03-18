@@ -20,6 +20,19 @@
         {
           "name": "心愿清单 首页",
           "pathName": "pages/wish/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "绑定情侣页",
+          "pathName": "pages/home/lover/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/home/lover/index/index",
+          "pathName": "pages/home/lover/index/index",
+          "query": "lover_open_id=o-Owu5KuzM2IK_lsfEVcNiu4lY1Q",
           "scene": null
         }
       ]

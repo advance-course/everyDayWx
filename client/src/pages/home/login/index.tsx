@@ -13,6 +13,8 @@ export default function LoginPage() {
       const userinfo = res.detail.userInfo
       const response = await registerApi(userinfo)
       Taro.setStorageSync('userinfo', response.data)
+      const app = Taro.getApp()
+      app.globalData = {...response.data}
       Taro.hideLoading()
       Taro.showToast({ title: '登陆成功！', icon: 'success' })
       Taro.eventCenter.trigger(`${Taro.getLaunchOptionsSync().path}/login`)

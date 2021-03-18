@@ -14,6 +14,8 @@ exports.main = async (event, context) => {
 
   const db = cloud.database();
   const user = db.collection('user');
+  const couple = db.collection('couple');
+  const _ = db.command
   const app = new TcbRouter({
     event
   });
@@ -62,10 +64,19 @@ exports.main = async (event, context) => {
 
     delete info.$url;
 
+    const data = {
+      info, 
+      _id: res._id,
+      host_open_id:OPENID,
+      lover_open_id:0,
+      couple_id:0
+    }
+
     try {
       const res = await user.add({ data: info });
       delete info.openid
-      ctx.body = { success: true, code: 200, message: '注册成功', data: {...info, _id: res._id}}
+      // ctx.body = { success: true, code: 200, message: '注册成功', data: {...info, _id: res._id}}
+      ctx.body = { success: true, code: 200, message: '注册成功', data}
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
@@ -79,13 +90,36 @@ exports.main = async (event, context) => {
       const info = await user.where({
         openid: OPENID,
       }).field({ openid: false, userInfo: false }).get()
-
       if (info.data.length) {
+        res = await couple.where(_.or([
+          {
+            user_open_id1: _.eq(OPENID)
+          },
+          {
+            user_open_id2: _.eq(OPENID)
+          }
+        ])).get()
+        
+        let lover_open_id, couple_id
+
+        if (res.data.length) {
+          lover_open_id = OPENID === res.data[0].user_open_id1 ? res.data[0].user_open_id2 : res.data[0].user_open_id1,
+            couple_id = res.data[0]._id
+        } else {
+          lover_open_id = 0
+          couple_id = 0
+        }
+
         ctx.body = {
           success: true,
           code: 200,
           message: '请求成功',
-          data: info.data[0],
+          data: {
+            info: info.data[0],
+            host_open_id: OPENID,
+            lover_open_id,
+            couple_id
+          },
         }
         return
       }
@@ -171,6 +205,21 @@ exports.main = async (event, context) => {
         list: list.data
       };
       ctx.body = { success: true, code: 200, message: '请求成功', data: result }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
+  // 情侣绑定
+  app.router('v1/couple/bind', async (ctx) => {
+    const { open_id, lover_open_id } = event;
+    const data = {
+      user_open_id1: open_id, 
+      user_open_id2: lover_open_id
+    }
+    try {
+      await couple.add({ data });
+      ctx.body = { success: true, code: 200, message: '绑定成功', data: null }
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
