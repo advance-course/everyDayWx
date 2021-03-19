@@ -66,3 +66,7 @@ export function userInfoApi(userid: string) {
     userid
   })
 }
+
+export function coupleBindApi(prams) {
+  return http.post<Userinfo>('user/v1/couple/bind', prams)
+}

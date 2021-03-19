@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import {loginApi,coupleBindApi} from 'api/user'
 import Taro from '@tarojs/taro'
 
 // 预留配置项
@@ -25,15 +26,20 @@ export default function useLoginEffect(cb: () => any, options: LoginOptions = {}
       return
     }
     if (isLaunch) {
-      const info = Taro.getStorageSync('userinfo')
-      if (!info || !info._id) {
-        // 登陆返回之后，执行一次回调，因此在这里监听，在登陆成功之后需要出发该监听
-        Taro.eventCenter.on(`${launchPageInfo.path}/login`, cb)
-        Taro.navigateTo({url: '/pages/login/index'})
-        return
-      }
-      setReresh(false)
-      cb()
+      loginApi()
+        .then(res => {
+          const app = Taro.getApp()
+          app.globalData = {...res.data}
+          setReresh(false)
+          cb()
+        })
+        .catch(error => {
+          console.error(error)
+          // 登陆返回之后，执行一次回调，因此在这里监听，在登陆成功之后需要出发该监听
+          Taro.eventCenter.on(`${launchPageInfo.path}/login`, cb)
+          Taro.navigateTo({url: '/pages/home/login/index'})
+          setReresh(false)
+        })
     }
   }, [refresh])
 

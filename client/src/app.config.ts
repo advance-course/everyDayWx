@@ -2,19 +2,30 @@ import {Config} from '@tarojs/taro'
 
 const config: Config = {
   pages: [
-    'pages/home/index',
-    'pages/explore/index',
-    'pages/profile/index',
+    'pages/home/index/index',
+    'pages/explore/index/index',
+    'pages/profile/index/index',
     
+<<<<<<< HEAD
     'pages/login/index',
     'pages/ui/index',
     'pages/ui/module/index',
     'pages/ui/basic/button/index',
     'pages/users/index',
     'pages/users/detail/index',
+=======
+    
+    'pages/home/login/index',
+    'pages/home/wish/index/index',
+    'pages/home/wish/edit/index',
+    'pages/home/lover/index/index',
+>>>>>>> york
 
-    'pages/wish/index/index',
-    'pages/wish/edit/index',
+    'pages/profile/ui/index',
+    'pages/profile/ui/module/index',
+    'pages/profile/ui/basic/button/index',
+    'pages/profile/users/index/index',
+    'pages/profile/users/detail/index',
   ],
 
   window: {
@@ -29,17 +40,17 @@ const config: Config = {
     backgroundColor: '#fcfcfc',
     borderStyle: 'white',
     list: [{
-      pagePath: 'pages/home/index',
+      pagePath: 'pages/home/index/index',
       text: '首页',
       iconPath: 'assets/tabbar/home.png',
       selectedIconPath: 'assets/tabbar/home-hl.png'
     }, {
-      pagePath: 'pages/explore/index',
+      pagePath: 'pages/explore/index/index',
       text: '发现',
       iconPath: 'assets/tabbar/news.png',
       selectedIconPath: 'assets/tabbar/news-hl.png'
     }, {
-      pagePath: 'pages/profile/index',
+      pagePath: 'pages/profile/index/index',
       text: '我的',
       iconPath: 'assets/tabbar/my.png',
       selectedIconPath: 'assets/tabbar/my-hl.png'

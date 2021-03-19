@@ -197,7 +197,7 @@ export default class ModulePage extends Component {
     const type = getCurrentInstance().router!.params.type || ''
     const componentType = e.currentTarget.dataset.type
     Taro.navigateTo({
-      url: `/pages/ui/${type.toLowerCase()}/${componentType.toLowerCase()}/index`
+      url: `/pages/profile/ui/${type.toLowerCase()}/${componentType.toLowerCase()}/index`
     })
   }
 
