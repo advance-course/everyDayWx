@@ -2,15 +2,9 @@ import React from "react";
 import Taro, { getCurrentInstance } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import { userInfoApi, userUpdateApi, userTypeDesc, Userinfo } from "api/user";
-<<<<<<< HEAD:client/src/pages/profile/users/index/detail/index.tsx
-import useInitData from '../../../hooks/useInitData'
-import ListRow from "../../../components/ListRow/index";
-import Provider from "../../../components/Provider/index";
-=======
 import useInitData from 'hooks/useInitData'
 import ListRow from "components/ListRow";
 import Provider from "components/Provider";
->>>>>>> york:client/src/pages/profile/users/detail/index.tsx
 import * as images from './img/images'
 import { defaultDetails, genderIcon, language } from './config'
 import "./index.scss";

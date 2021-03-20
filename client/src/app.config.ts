@@ -6,20 +6,11 @@ const config: Config = {
     'pages/explore/index/index',
     'pages/profile/index/index',
     
-<<<<<<< HEAD
-    'pages/login/index',
-    'pages/ui/index',
-    'pages/ui/module/index',
-    'pages/ui/basic/button/index',
-    'pages/users/index',
-    'pages/users/detail/index',
-=======
     
     'pages/home/login/index',
     'pages/home/wish/index/index',
     'pages/home/wish/edit/index',
     'pages/home/lover/index/index',
->>>>>>> york
 
     'pages/profile/ui/index',
     'pages/profile/ui/module/index',

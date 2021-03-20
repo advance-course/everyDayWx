@@ -56,11 +56,7 @@ export default function index() {
       list={list.list}
       errMsg={errMsg}
       renderItem={(item) => (
-<<<<<<< HEAD:client/src/pages/users/index.tsx
-        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/users/detail/index?id=${item._id}` }) }}>
-=======
         <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/profile/users/detail/index?id=${item._id}` }) }}>
->>>>>>> york:client/src/pages/profile/users/index/index.tsx
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
             <Text className='user_nickName'>{`${item.nickName}`}</Text>
