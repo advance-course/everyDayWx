@@ -9,11 +9,11 @@ interface props {
     text: string,
     admin: boolean,
     country: string,
-    changeFn: any
+    onChange: any
 }
 
 export default function CityPicker(props: props) {
-    const { image, text, admin, country, changeFn } = props
+    const { image, text, admin, country, onChange } = props
     const changeRegion = function (e) {
         if (country !== 'China') {
             Taro.showToast({
@@ -28,7 +28,7 @@ export default function CityPicker(props: props) {
             city: e.detail.value[1],
             district: e.detail.value[2]
         }
-        changeFn(region)
+        onChange(region)
     }
     return (
         < View >

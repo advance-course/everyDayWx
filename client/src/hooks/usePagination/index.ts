@@ -93,7 +93,8 @@ export default function usePagination<T>(
       }))
     },
     // 更新List中的某条数据
-    updateList: (item: T, index: number) => {
+    updateList: (params: {item: T, index: number}) => {
+      const { item, index } = params
       const nextState = produce(state, (draft: typeof state) => {
         draft.list.list[index] = { ...item }
       })

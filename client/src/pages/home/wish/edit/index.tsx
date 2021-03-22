@@ -7,16 +7,15 @@ import Provider from "components/Provider/index";
 import "./index.scss"
 import loveHeart from './love-heart.png'
 
-const openId = 'o-Owu5KuzM2IK_lsfEVcNiu4lY1Q'
-
 export default function Edit() {
-    const _id = getCurrentInstance().router?.params._id || ''
+    const { _id = '', index = -1 } = getCurrentInstance().router?.params || {}
     const { loading, data, errMsg, updateData } = useInitData<WishInfo>({
         initApi: getWishDetailApi,
         updateApi: editWishApi,
         id: _id,
         params: { title: '' }
     })
+    
     let titleInput = data.title
 
     Taro.setNavigationBarTitle({ title: _id ? '编辑心愿' : '创建心愿' })
@@ -25,10 +24,10 @@ export default function Edit() {
         if (!checkInput()) return
         try {
             await createWishApi({
-                openid: openId,
+                openid: Taro.getApp().globalData.host_open_id,
                 title: titleInput
             })
-            Taro.eventCenter.trigger('refreshWish')
+            Taro.eventCenter.trigger('refreshWish', true)
             Taro.navigateBack()
             Taro.showToast({ title: '创建愿望成功' })
         } catch (error) {
@@ -41,8 +40,8 @@ export default function Edit() {
         try {
             await updateData({ title: titleInput })
             Taro.eventCenter.trigger('updateWish', {
-                _id,
-                title: titleInput
+                value: { ...data, title: titleInput },
+                index
             })
             Taro.navigateBack()
             Taro.showToast({ title: '编辑愿望成功' })

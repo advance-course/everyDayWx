@@ -6,7 +6,7 @@ import editIcon from '../img/edit.png'
 interface props {
     image: string,
     text: string,
-    changeFn: any,
+    onChange: any,
     userType: number,
 }
 
@@ -25,7 +25,7 @@ const userTypeList = [
 
 
 export default function UserPicker(props: props) {
-    const { image, text, changeFn, userType } = props
+    const { image, text, onChange, userType } = props
     let range, admin
     if (userType === 2) {
         admin = true
@@ -36,7 +36,7 @@ export default function UserPicker(props: props) {
         range = superUserTypeList
     }
     const changeUserType = function (e) {
-        changeFn({
+        onChange({
             type: range[e.detail.value].value
         })
     }

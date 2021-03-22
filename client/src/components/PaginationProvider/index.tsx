@@ -10,7 +10,7 @@ interface PaginationProviderProps<T> {
   lastPage: boolean
   errMsg?: string,
   list: T[],
-  renderItem: (item) => JSX.Element
+  renderItem: (item, index) => JSX.Element
 }
 
 export default function PaginationProvider(props: PaginationProviderProps<any>) {

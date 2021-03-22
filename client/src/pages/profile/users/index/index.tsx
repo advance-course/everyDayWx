@@ -40,13 +40,8 @@ export default function index() {
     setLoading(true)
   })
 
-  Taro.eventCenter.on('refreshUserList', () => setLoading(true))
+  Taro.eventCenter.on('updateUserInfo', updateList)
 
-  Taro.eventCenter.on('updateUserInfo', updateUserInfo => {
-      const updateIndex = list.list.findIndex(userInfo => userInfo._id === updateUserInfo._id)
-      updateList(updateUserInfo, updateIndex)
-  })
-  
   return(
     <PaginationProvider 
       loading={loading} 
@@ -54,8 +49,8 @@ export default function index() {
       lastPage={list.pagination.lastPage || true}
       list={list.list}
       errMsg={errMsg}
-      renderItem={(item) => (
-        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/profile/users/detail/index?id=${item._id}` }) }}>
+      renderItem={(item, index) => (
+        <View className='user_item' key={item._id} onClick={() => { Taro.navigateTo({ url: `/pages/profile/users/detail/index?id=${item._id}&index=${index}` }) }}>
           <Image className='user_avatar' src={item.avatarUrl}></Image>
           <View className="user_desc">
             <Text className='user_nickName'>{`${item.nickName}`}</Text>

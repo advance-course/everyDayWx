@@ -11,7 +11,7 @@ import "./index.scss";
 
 
 export default function Detail() {
-  const id = getCurrentInstance().router?.params.id || ''
+  const { id = '', index = -1 } = getCurrentInstance().router?.params || {}
   const { loading, data, errMsg, updateData } = useInitData<Userinfo>({
     initApi: userInfoApi,
     updateApi: userUpdateApi,
@@ -19,15 +19,11 @@ export default function Detail() {
     params: defaultDetails
   })
 
-  const myInfo = Taro.getStorageSync('userinfo')
-  const admin = myInfo.type < 3
-
   const updateUserInfo = async function (value) {
     await updateData(value)
-    value._id = id
-    Taro.eventCenter.trigger('updateUserInfo', value)
+    Taro.eventCenter.trigger('updateUserInfo', { value, index })
   }
-  
+
   return (
     <Provider errMsg={errMsg} loading={loading}>
       <View className='container'>
@@ -45,12 +41,12 @@ export default function Detail() {
         </View>
 
         <View className='detail'>
-          <ListRow.UserPicker userType={myInfo.type} image={images.user} text={data.type ? userTypeDesc[data.type] : '无'} changeFn={updateUserInfo} ></ListRow.UserPicker>
-          <ListRow.CityPicker image={images.city} admin={false} country={data.country} text={`${data.city || '无'} ${data.district || ''}`} changeFn={value => updateData(value)} ></ListRow.CityPicker>
+          <ListRow.UserPicker userType={data.type || 3} image={images.user} text={data.type ? userTypeDesc[data.type] : '无'} onChange={updateUserInfo} ></ListRow.UserPicker>
+          <ListRow.CityPicker image={images.city} admin={false} country={data.country} text={`${data.city || '无'} ${data.district || ''}`} onChange={value => updateData(value)} ></ListRow.CityPicker>
           <View>
             <Image src={images.date} /> {data.createTime ? new Date(data.createTime).toLocaleDateString() : '无'}
           </View>
-          <ListRow.Picker image={images.language} admin={false} range={language} text={data.language || '无'} changeFn={(e) => updateData({ language: language[e.detail.value].value })} ></ListRow.Picker>
+          <ListRow.Picker image={images.language} admin={false} range={language} text={data.language || '无'} onChange={(e) => updateData({ language: language[e.detail.value].value })} ></ListRow.Picker>
         </View>
 
       </View>
