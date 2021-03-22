@@ -24,7 +24,7 @@ export default function Edit() {
         if (!checkInput()) return
         try {
             await createWishApi({
-                openid: Taro.getApp().globalData.host_open_id,
+                couple_id: Taro.getApp().globalData.couple_id,
                 title: titleInput
             })
             Taro.eventCenter.trigger('refreshWish', true)

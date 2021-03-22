@@ -9,27 +9,31 @@ cloud.init({
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+    const { OPENID } = cloud.getWXContext()
     const db = cloud.database();
-    const wish = db.collection('wish');
+    const wish = db.collection('wish2');
+    const couple = db.collection('couple');
     const app = new TcbRouter({
         event
     });
 
     /**
      * 创建情侣心愿
-     * @param {openid} 用户openId
+     * @param {couple_id} 用户couple_id
      * @param {title} 心愿标题
      */
     app.router('v1/create', async ctx => {
-        const { openid, title } = event
+        console.log(event)
+        const { couple_id, title } = event
         try {
             await wish.add({
                 data: {
-                    openid,
+                    couple_id,
                     title,
                     state: 1, // 1创建 2本人完成 3对方完成 4双方完成
                     createTime: db.serverDate(),
-                    modifyTime: db.serverDate()
+                    modifyTime: db.serverDate(),
+                    finisher: []
                 }
             })
             ctx.body = {
@@ -37,7 +41,7 @@ exports.main = async (event, context) => {
                 code: 200,
                 message: '请求成功',
                 data: {
-                    openid,
+                    couple_id,
                     title
                 }
             }
@@ -52,23 +56,25 @@ exports.main = async (event, context) => {
 
     /**
      * 查询情侣所有心愿
-     * @param {openid} 用户openId
+     * @param {couple_id} 用户couple_id
      * @param {current} 当前页，默认值1
      * @param {pageSize} 每一页大小 默认值10
      */
     app.router('v1/all', async ctx => {
-        const { current = 1, pageSize = 10, openid } = event;
+        const { current = 1, pageSize = 10, couple_id } = event;
+        console.log(event)
         try {
-            if (!openid) {
+            if (!couple_id) {
                 ctx.body = {
                     success: false,
-                    message: '无openId'
+                    message: '无couple_id'
                 }
                 return
             }
+
             const wish2 = db.collection('wish').orderBy('modifyTime', 'desc');
             const result = await wish2.where({
-                openid
+                couple_id
             })
             const count = await result.count()
             const total = count.total || 0
@@ -77,16 +83,30 @@ exports.main = async (event, context) => {
                 lastPage = true;
             }
             const start = pageSize * (current - 1);
-            const list = await result.field({
-                openid: false
+            const wishData = await result.field({
+                couple_id: false
             }).skip(start).limit(pageSize).get();
+
+            const { data: coupleInfo } = await couple.doc(couple_id).get()
+            const lover_open_id = OPENID === coupleInfo.user_open_id1 ? coupleInfo.user_open_id2 : coupleInfo.user_open_id1
+            const list = wishData.data.map(wish => {
+                const data = {
+                    ...wish,
+                    host_finish: ((wish.finisher.findIndex(finisher => finisher === OPENID)) !== -1),
+                    lover_finish: wish.finisher.findIndex(finisher => finisher === lover_open_id) !== -1,
+                }
+                delete data.finisher
+                return data
+            })
+
             const data = {
                 pageSize,
                 current,
                 lastPage,
                 total,
-                list: list.data
+                list
             };
+            
             ctx.body = {
                 success: true,
                 code: 200,
@@ -109,7 +129,7 @@ exports.main = async (event, context) => {
     app.router('v1/detail', async ctx => {
         try {
             const { data } = await wish.doc(event._id).field({
-                openid: false
+                couple_id: false
             }).get()
             ctx.body = {
                 success: true,

@@ -9,7 +9,7 @@ import PaginationProvider from 'components/PaginationProvider'
 
 export default function Index() {
     const { list, loading, increasing, updateList, setIncreasing, setLoading } = usePagination<WishInfo>(getAllWishApi, {
-        openid: Taro.getApp().globalData.host_open_id,
+        couple_id: Taro.getApp().globalData.couple_id,
         current: 1,
         pageSize: 15,
     }, false)

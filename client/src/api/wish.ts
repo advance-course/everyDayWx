@@ -3,7 +3,7 @@ import http from "utils/http";
 
 export interface WishInfo {
   _id?: string;
-  openid?: string;
+  couple_id?: string;
   title: string;
   state?: number;
   createTime?: Date;
