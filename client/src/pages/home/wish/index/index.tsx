@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Taro, { usePullDownRefresh, useReachBottom } from "@tarojs/taro";
 import { View, Image } from '@tarojs/components'
 import { getAllWishApi, finishWishApi, WishInfo } from "api/wish";
-import useLoginEffect from 'hooks/useLoginEffect'
 import "./index.scss"
 import createIcon from './create.png'
 import editIcon from './edit.png'
@@ -10,13 +9,15 @@ import deleteIcon from './delete.png'
 import usePagination from 'hooks/usePagination/index'
 import PaginationProvider from 'components/PaginationProvider'
 
+const app = Taro.getApp()
+
 export default function Index() {
 
     const { list, loading, increasing, updateList, setIncreasing, setLoading } = usePagination<WishInfo>(getAllWishApi, {
-        couple_id: Taro.getApp().globalData.couple_id,
+        couple_id: app.globalData.couple_id,
         // couple_id: '79550af260532c9f0ab87e60347730fb',
         current: 1,
-        pageSize: 15,
+        pageSize: 5,
     }, false)
     const [apiLoading, setApiLoading] = useState(false)
 
@@ -35,7 +36,7 @@ export default function Index() {
     const finishWish = async function (_id, index) {
         try {
             setApiLoading(true)
-            await finishWishApi(_id, Taro.getApp().globalData.host_open_id)
+            await finishWishApi(_id, app.globalData.host_open_id)
             // await finishWishApi(_id, 'o-Owu5KuzM2IK_lsfEVcNiu4lY1Q')
             const updateWish = {
                 item: {
@@ -52,6 +53,18 @@ export default function Index() {
         }
     }
 
+    const editWish = function (item, index) {
+        if (item.host_finish || item.lover_finish) {
+            Taro.showToast({
+                title: '心愿已开始，无法修改',
+                icon: 'none',
+                duration: 2000
+            })
+            return
+        }
+        Taro.navigateTo({ url: `/pages/home/wish/edit/index?_id=${item._id}&index=${index}` })
+    }
+
     const deleteWish = function () {
         Taro.showToast({
             title: '未开发功能',
@@ -60,7 +73,7 @@ export default function Index() {
         })
     }
 
-    if (!Taro.getApp().globalData.couple_id) {
+    if (!app.globalData.couple_id) {
         return (
             <View className="container">
                 <View className="slogan">我们的心愿</View>
@@ -103,7 +116,7 @@ export default function Index() {
                             </View>
                             <View className="footer">
                                 <Image className="delete-icon" mode="widthFix" src={deleteIcon} onClick={() => deleteWish()} ></Image>
-                                <Image className="edit-icon" mode="widthFix" src={editIcon} onClick={() => Taro.navigateTo({ url: `/pages/home/wish/edit/index?_id=${item._id}&index=${index}` })} ></Image>
+                                <Image className="edit-icon" mode="widthFix" src={editIcon} onClick={() => editWish(item, index)} ></Image>
                             </View>
                         </View>
                     )

@@ -25,7 +25,7 @@ export default function Index() {
         }
     })
 
-    if (lover_open_id && !loading) {
+    if (lover_open_id && !loading && lover_open_id!== app.globalData.host_open_id) {
         Taro.showModal({
             title: '提示',
             content: '是否同意绑定情侣',
@@ -44,7 +44,7 @@ export default function Index() {
                             title: '绑定成功',
                             icon: 'success',
                             duration: 2000
-                          })
+                        })
                     } catch (error) {
                         console.error(error)
                         setErrMsg(error.message)
@@ -58,9 +58,12 @@ export default function Index() {
 
     return (
         <Provider loading={loading} errMsg={errMsg}>
-            <View className='index'>
-                <View className='title'>THIS IS LOVER PAGE</View>
-                <Button plain type='primary' openType='share'>邀请绑定</Button>
+            <View className='container'>
+                <View className="content">
+                    <View className='title'>THIS IS LOVER PAGE</View>
+                    <View className='title'>快邀请TA与你绑定情侣关系吧</View>
+                    <Button className="invite-btn" plain openType='share'>邀请绑定</Button>
+                </View>
             </View>
         </Provider>
     )

@@ -1,8 +1,9 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import useLoginEffect from 'hooks/useLoginEffect'
 import './index.scss'
+import arrowIcon from './arrow.png'
 
 const app = Taro.getApp()
 
@@ -11,8 +12,8 @@ export default function Home() {
     console.log('访问到了首页')
   })
 
-  const targetToLover = function() {
-    if(app.globalData.lover_open_id) {
+  const targetToLover = function () {
+    if (app.globalData.lover_open_id) {
       Taro.showToast({
         title: '您已绑定情侣关系',
         icon: 'none',
@@ -20,15 +21,21 @@ export default function Home() {
       })
       return
     } else {
-      Taro.navigateTo({url: '/pages/home/lover/index/index'})
+      Taro.navigateTo({ url: '/pages/home/lover/index/index' })
     }
   }
-  
+
   return (
     <View className='index'>
-      <Text>home page.</Text>
-      <View className="wish" onClick={()=> Taro.navigateTo({url: '/pages/home/wish/index/index'})}>心愿清单</View>
-      <View className="wish" onClick={targetToLover}>绑定情侣</View>
+      <Text className="title">HOME PAGE.</Text>
+      <View className="item" onClick={() => Taro.navigateTo({ url: '/pages/home/wish/index/index' })}>
+        <Text>心愿清单</Text>
+        <Image className="arrow-icon" mode="widthFix" src={arrowIcon}></Image>
+      </View>
+      <View className="item" onClick={targetToLover}>
+        <Text>绑定情侣</Text>
+        <Image className="arrow-icon" mode="widthFix" src={arrowIcon}></Image>
+      </View>
     </View>
   )
 }

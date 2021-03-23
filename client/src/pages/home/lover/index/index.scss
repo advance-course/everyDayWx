@@ -1,5 +1,34 @@
-.title {
+.container {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 10px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 250, 0.9) 0%,
+    #fff8fa 15%,
+    #fff7f9 100%
+  );
+  .content {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+  }
+  .title {
     margin: 20px 0;
     text-align: center;
     color: pink;
+    font-size: 42px;
+  }
+  .invite-btn {
+    margin-top: 20px;
+    border-color: #ff6184;
+    color: #ff4988;
+  }
 }

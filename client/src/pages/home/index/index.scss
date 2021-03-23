@@ -1,5 +1,37 @@
-.wish {
-    margin: 20px;
-    padding: 10px 20px;
-    border: 1px solid gray;
+.index {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 10px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 250, 0.9) 0%,
+    #fff8fa 15%,
+    #fff7f9 100%
+  );
+  color: rgb(99, 90, 90);
+  .title {
+    display: block;
+    margin: 20px 0;
+    font-size: 54px;
+  }
+  .item {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 14px;
+    text-indent: 10px;
+    .arrow-icon {
+        width: 45px;
+        height: auto;
+    }
+  }
 }

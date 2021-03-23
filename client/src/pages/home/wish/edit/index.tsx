@@ -72,7 +72,7 @@ export default function Edit() {
             <View className="container">
                 <View className="title">心愿清单</View>
                 <View className="input-label">我们的心愿</View>
-                <Input className="input" type='text' placeholder='请输入心愿（30字符内）' maxlength={30} value={data.title} onInput={inputText} />
+                <Input className="input" type='text' placeholder='请输入心愿（15字符内）' maxlength={15} value={data.title} onInput={inputText} />
                 <View className="tips">tips: 心愿需要双方共同实现才算完成</View>
                 <Image className="love-heart" mode="widthFix" src={loveHeart} onClick={_id ? editWish : createWish}></Image>
             </View>
