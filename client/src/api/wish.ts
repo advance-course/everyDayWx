@@ -8,6 +8,9 @@ export interface WishInfo {
   state?: number;
   createTime?: Date;
   modifyTime?: Date;
+  progress?: number;
+  lover_finish?: boolean;
+  host_finish?: boolean;
 }
 
 export function createWishApi(wishinfo: WishInfo) {

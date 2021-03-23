@@ -1,6 +1,8 @@
 .paginationProvider_footer {
-  margin: 0 auto;
-  margin-bottom: 20px;
+  position: fixed;
+  bottom: 35px;
+  width: 100%;
+  text-align: center;
   .footer_desc {
     display: inline-block;
     color: rgb(187, 186, 186);

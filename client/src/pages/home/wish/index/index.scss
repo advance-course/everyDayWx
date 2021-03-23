@@ -1,24 +1,123 @@
 .container {
-  padding: 0 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 10px;
   font-family: PingFangSC-Medium, PingFang SC;
-  .title {
-    margin-bottom: 20px;
-    font-size: 46px;
+  background: linear-gradient(#8799a3, #f8f8ff);
+
+  .slogan {
+    align-self: flex-start;
+    margin: 40px 20px 0;
+    font-size: 72px;
+    color: #fff;
     text-align: center;
   }
-  .wish-card {
+  .content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    margin: 20px 0;
-    border: 1px solid gray;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    font-size: 42px;
+    .lover-btn {
+      width: 200px;
+      padding: 20px;
+      margin-top: 30px;
+      background: #f8f8ff;
+      border: 1px solid gray;
+      border-radius: 20px;
+      font-size: 36px;
+      text-align: center;
+    }
   }
   .create-icon {
     position: fixed;
     left: 50%;
-    bottom: 5%;
+    bottom: 7%;
     transform: translateX(-50%);
     width: 120px;
     height: auto;
+  }
+  .wish-card {
+    width: 96vw;
+    padding: 20px 5px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    background: #f8f8ff;
+    color: rgb(99, 90, 90);
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 25px 10px;
+      border-bottom: 1px solid thistle;
+      .title {
+        color: rgb(99, 90, 90);
+        font-size: 42px;
+        margin-bottom: 5px;
+      }
+      .create-time {
+        font-size: 24px;
+      }
+      .doing-btn,
+      .done-btn {
+        font-size: 36px;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid thistle;
+      }
+      .done-btn {
+        opacity: 0.7;
+        text-decoration: line-through;
+      }
+    }
+    .progress {
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      margin: 10px 0;
+      .progress-label {
+        font-size: 32px;
+      }
+      .progress-bar {
+        box-sizing: border-box;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 35px;
+        background: #fff;
+        border: 1px solid gray;
+        .progress-bg {
+          width: 60%;
+          height: 100%;
+          background: #519d9e;
+        }
+        .progress-text {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 20px;
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid thistle;
+      padding: 15px 25px 0;
+      image {
+        width: 42px;
+        height: auto;
+      }
+    }
   }
 }

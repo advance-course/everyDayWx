@@ -95,6 +95,7 @@ exports.main = async (event, context) => {
                     ...wish,
                     host_finish: ((wish.finisher.findIndex(finisher => finisher === OPENID)) !== -1),
                     lover_finish: wish.finisher.findIndex(finisher => finisher === lover_open_id) !== -1,
+                    progress: wish.finisher.length / 2 * 100
                 }
                 delete data.finisher
                 return data

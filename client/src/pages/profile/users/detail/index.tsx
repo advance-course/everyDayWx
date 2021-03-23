@@ -19,9 +19,9 @@ export default function Detail() {
     params: defaultDetails
   })
 
-  const updateUserInfo = async function (value) {
-    await updateData(value)
-    Taro.eventCenter.trigger('updateUserInfo', { value, index })
+  const updateUserInfo = async function (item) {
+    await updateData(item)
+    Taro.eventCenter.trigger('updateUserInfo', { item, index })
   }
 
   return (
