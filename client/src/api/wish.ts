@@ -28,3 +28,10 @@ export function editWishApi(_id: string, wishinfo: WishInfo) {
     ...wishinfo
   });
 }
+
+export function finishWishApi(_id: string, openId: string) {
+  return http.get<string>("wish/v1/finish", {
+    _id,
+    openId
+  });
+}

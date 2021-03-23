@@ -11,8 +11,9 @@ cloud.init({
 exports.main = async (event, context) => {
     const { OPENID } = cloud.getWXContext()
     const db = cloud.database();
-    const wish = db.collection('wish2');
+    const wish = db.collection('wish');
     const couple = db.collection('couple');
+    const _ = db.command
     const app = new TcbRouter({
         event
     });
@@ -72,8 +73,8 @@ exports.main = async (event, context) => {
                 return
             }
 
-            const wish2 = db.collection('wish').orderBy('modifyTime', 'desc');
-            const result = await wish2.where({
+            const wish = db.collection('wish').orderBy('modifyTime', 'desc');
+            const result = await wish.where({
                 couple_id
             })
             const count = await result.count()
@@ -106,7 +107,7 @@ exports.main = async (event, context) => {
                 total,
                 list
             };
-            
+
             ctx.body = {
                 success: true,
                 code: 200,
@@ -166,6 +167,36 @@ exports.main = async (event, context) => {
                 message: '请求成功',
             }
         } catch (error) {
+            ctx.body = {
+                success: false,
+                code: error.errCode,
+                message: error.errMsg
+            }
+        }
+    })
+
+    /**
+    * 完成情侣心愿
+    * @param {id} 心愿id
+    * @param {openId} 心愿标题
+    */
+    app.router('v1/finish', async ctx => {
+        const { _id, openId } = event
+        console.log(event)
+        try {
+            const res = await wish.doc(_id).update({
+                data: {
+                    finisher: _.push(openId)
+                }
+            })
+            console.log(res)
+            ctx.body = {
+                success: true,
+                code: 200,
+                message: '请求成功',
+            }
+        } catch (error) {
+            console.error(error)
             ctx.body = {
                 success: false,
                 code: error.errCode,

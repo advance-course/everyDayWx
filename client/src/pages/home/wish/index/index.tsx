@@ -1,13 +1,15 @@
 import React from 'react'
 import Taro, { usePullDownRefresh, useReachBottom } from "@tarojs/taro";
 import { View, Image } from '@tarojs/components'
-import { getAllWishApi, WishInfo } from "api/wish";
+import { getAllWishApi, finishWishApi, WishInfo } from "api/wish";
+import useLoginEffect from 'hooks/useLoginEffect'
 import "./index.scss"
 import createIcon from './create.png'
 import usePagination from 'hooks/usePagination/index'
 import PaginationProvider from 'components/PaginationProvider'
 
 export default function Index() {
+
     const { list, loading, increasing, updateList, setIncreasing, setLoading } = usePagination<WishInfo>(getAllWishApi, {
         couple_id: Taro.getApp().globalData.couple_id,
         current: 1,
@@ -26,6 +28,10 @@ export default function Index() {
 
     usePullDownRefresh(() => setLoading(true))
 
+    const finishWish = function(_id) {
+        finishWishApi(_id, Taro.getApp().globalData.host_open_id)
+    }
+
     return (
         <View className="container">
             <View className="title">心愿清单</View>
@@ -39,6 +45,7 @@ export default function Index() {
                     return (
                         <View className="wish-card">
                             <View>{item.title}</View>
+                            <View onClick={() => finishWish(item._id)}>完成</View>
                             <View onClick={() => Taro.navigateTo({ url: `/pages/home/wish/edit/index?_id=${item._id}&index=${index}` })}>编辑</View>
                         </View>
                     )

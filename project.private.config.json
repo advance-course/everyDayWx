@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -18,8 +19,8 @@
           "scene": null
         },
         {
-          "name": "心愿清单 首页",
-          "pathName": "pages/wish/index/index",
+          "name": "心愿首页",
+          "pathName": "pages/home/wish/index/index",
           "query": "",
           "scene": null
         },
