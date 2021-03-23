@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Footer from './Footer/index';
+import classnames from 'classnames'
 import './index.scss'
 
 interface PaginationProviderProps<T> {
@@ -9,13 +10,14 @@ interface PaginationProviderProps<T> {
   increasing: boolean,
   lastPage: boolean
   errMsg?: string,
+  className?: string,
   list: T[],
   renderItem: (item, index) => JSX.Element
 }
 
 export default function PaginationProvider(props: PaginationProviderProps<any>) {
-  const {loading, increasing, lastPage, errMsg, list, renderItem} = props
-  
+  const {loading, increasing, lastPage, errMsg, list, className, renderItem} = props
+
   useEffect(() => {
     if(loading ) {
       Taro.showToast({
@@ -32,8 +34,13 @@ export default function PaginationProvider(props: PaginationProviderProps<any>) 
     Taro.showToast({title: '发生错误'})
   }
 
+  const cls = classnames('paginationProvider', {
+    // @ts-ignore
+    [className]: !!className
+  })
+
   return (
-    <View className='paginationProvider'>
+    <View className={cls}>
       {
         // list.map(item => (
         //   <View className='user_item' key={item.id} onClick={() => { Taro.navigateTo({ url: `/pages/detail/index?id=${item._id}` }) }}>

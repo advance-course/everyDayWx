@@ -18,6 +18,7 @@ const config: Config = {
     'pages/profile/users/index/index',
     'pages/profile/users/detail/index',
   ],
+
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

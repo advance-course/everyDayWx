@@ -43,7 +43,8 @@ export default function index() {
   Taro.eventCenter.on('updateUserInfo', updateList)
 
   return(
-    <PaginationProvider 
+    <PaginationProvider
+      className='container'
       loading={loading} 
       increasing={increasing}
       lastPage={list.pagination.lastPage || true}
