@@ -51,7 +51,7 @@ export default function Index() {
                 loading={loading || apiLoading}
                 increasing={increasing}
                 list={list.list}
-                lastPage={list.pagination.lastPage || true}
+                lastPage={list.pagination.lastPage || false}
                 renderItem={(item, index) =>
                     <WishItem item={item} index={index} setApiLoading={setApiLoading}></WishItem>
                 }

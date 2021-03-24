@@ -7,15 +7,62 @@ import Provider from 'components/Provider'
 import "./index.scss"
 
 const app = Taro.getApp()
+let lover_open_id = ''
 
 export default function Index() {
     const params = getCurrentInstance().router?.params || {}
-    const lover_open_id = params.lover_open_id || ''
+    if (params.lover_open_id) lover_open_id = params.lover_open_id
     const [loading, setLoading] = useState(true)
     const [errMsg, setErrMsg] = useState('')
 
     useLoginEffect(() => {
         setLoading(false)
+        if (app.globalData.couple_id) {
+            Taro.switchTab({
+                url: '/pages/home/index/index'
+            })
+            Taro.showToast({
+                title: '您已绑定情侣关系',
+                icon: 'none',
+                duration: 2000
+            })
+            return
+        }
+        setTimeout(() => {
+            if (lover_open_id && app.globalData && lover_open_id !== app.globalData.host_open_id) {
+                Taro.showModal({
+                    title: '提示',
+                    content: '是否同意绑定情侣',
+                    async success(res) {
+                        if (res.confirm) {
+                            try {
+                                setLoading(true)
+                                const res = await coupleBindApi({
+                                    open_id: app.globalData.host_open_id,
+                                    lover_open_id,
+                                })
+                                app.globalData.couple_id = res.data.couple_id
+                                app.globalData.lover_open_id = lover_open_id
+                                setLoading(false)
+                                Taro.switchTab({
+                                    url: '/pages/home/index/index'
+                                })
+                                Taro.showToast({
+                                    title: '绑定成功',
+                                    icon: 'success',
+                                    duration: 2000
+                                })
+                            } catch (error) {
+                                console.error(error)
+                                setErrMsg(error.message)
+                            }
+                        } else if (res.cancel) {
+                            console.log('用户点击取消')
+                        }
+                    }
+                })
+            }
+        })
     })
 
     useShareAppMessage(() => {
@@ -24,37 +71,6 @@ export default function Index() {
             path: `/pages/home/lover/index/index?lover_open_id=${app.globalData.host_open_id}`
         }
     })
-
-    if (lover_open_id && !loading && lover_open_id!== app.globalData.host_open_id) {
-        Taro.showModal({
-            title: '提示',
-            content: '是否同意绑定情侣',
-            async success(res) {
-                if (res.confirm) {
-                    try {
-                        setLoading(true)
-                        await coupleBindApi({
-                            open_id: app.globalData.host_open_id,
-                            lover_open_id,
-                        })
-                        Taro.switchTab({
-                            url: '/pages/home/index/index'
-                        })
-                        Taro.showToast({
-                            title: '绑定成功',
-                            icon: 'success',
-                            duration: 2000
-                        })
-                    } catch (error) {
-                        console.error(error)
-                        setErrMsg(error.message)
-                    }
-                } else if (res.cancel) {
-                    console.log('用户点击取消')
-                }
-            }
-        })
-    }
 
     return (
         <Provider loading={loading} errMsg={errMsg}>

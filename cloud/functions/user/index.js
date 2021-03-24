@@ -66,7 +66,6 @@ exports.main = async (event, context) => {
 
     const data = {
       info, 
-      _id: res._id,
       host_open_id:OPENID,
       lover_open_id:0,
       couple_id:0
@@ -218,8 +217,8 @@ exports.main = async (event, context) => {
       user_open_id2: lover_open_id
     }
     try {
-      await couple.add({ data });
-      ctx.body = { success: true, code: 200, message: '绑定成功', data: null }
+      const res = await couple.add({ data });
+      ctx.body = { success: true, code: 200, message: '绑定成功', data: {couple_id: res._id} }
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }

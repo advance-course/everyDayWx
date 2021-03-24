@@ -68,5 +68,5 @@ export function userInfoApi(userid: string) {
 }
 
 export function coupleBindApi(prams) {
-  return http.post<Userinfo>('user/v1/couple/bind', prams)
+  return http.post<any>('user/v1/couple/bind', prams)
 }

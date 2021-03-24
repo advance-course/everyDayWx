@@ -29,12 +29,6 @@
           "pathName": "pages/home/lover/index/index",
           "query": "",
           "scene": null
-        },
-        {
-          "name": "pages/home/lover/index/index",
-          "pathName": "pages/home/lover/index/index",
-          "query": "lover_open_id=o-Owu5KuzM2IK_lsfEVcNiu4lY1Q",
-          "scene": null
         }
       ]
     }
