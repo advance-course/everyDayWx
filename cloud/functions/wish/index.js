@@ -206,5 +206,30 @@ exports.main = async (event, context) => {
         }
     })
 
+    /**
+    * 删除情侣心愿
+    * @param {_id} 心愿id
+    */
+    app.router('v1/delete', async ctx => {
+        const { _id } = event
+        console.log(event)
+        try {
+            const res = await wish.doc(_id).remove()
+            console.log(res)
+            ctx.body = {
+                success: true,
+                code: 200,
+                message: '请求成功',
+            }
+        } catch (error) {
+            console.error(error)
+            ctx.body = {
+                success: false,
+                code: error.errCode,
+                message: error.errMsg
+            }
+        }
+    })
+
     return app.serve();
 }

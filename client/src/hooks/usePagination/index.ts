@@ -1,7 +1,7 @@
 import { stopPullDownRefresh } from '@tarojs/taro'
 import {useState, useEffect} from 'react'
 import { Result } from 'utils/http'
-import { Page, PaginationParam, defPaginationParams, getDefPageData, mergePagination } from './entity'
+import { Page, PageData, PaginationParam, defPaginationParams, getDefPageData, mergePagination } from './entity'
 import produce from 'immer'
 
 type APIFunc<T, P> = (params: P) => Promise<Result<Page<T>>>
@@ -99,6 +99,12 @@ export default function usePagination<T>(
         draft.list.list[index] = { ...item }
       })
       setState(nextState)
+    },
+    // 更新所有List数据
+    updateAllList: (list: PageData<T>) => {
+      setState(produce(state, (draft: typeof state) => {
+        draft.list = list
+      }))
     },
     push: (item: T) => {
       setState(produce(state, (draft: typeof state) => {

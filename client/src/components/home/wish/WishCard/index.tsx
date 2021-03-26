@@ -1,16 +1,16 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import { finishWishApi, deleteWishApi, WishInfo } from "api/wish";
+import "./index.scss"
 import editIcon from './edit.png'
 import deleteIcon from './delete.png'
-import { finishWishApi, WishInfo } from "api/wish";
 
 const app = Taro.getApp()
 
 interface SetApiLoading {
     (loading: boolean): void;
 }
-
 interface props {
     item: WishInfo
     index: number
@@ -52,11 +52,25 @@ export default function WishItem(props: props) {
         Taro.navigateTo({ url: `/pages/home/wish/edit/index?_id=${item._id}&index=${index}` })
     }
 
-    const deleteWish = function () {
-        Taro.showToast({
-            title: '未开发功能',
-            icon: 'none',
-            duration: 2000
+    const deleteWish = function (_id) {
+        Taro.showModal({
+            title: '提示',
+            content: '确定删除该心愿吗？',
+            async success(res) {
+                if (res.confirm) {
+                    console.log('trigger')
+                    try {
+                        setApiLoading(true)
+                        await deleteWishApi(_id)
+                        Taro.eventCenter.trigger('deleteWish', index)
+                        setApiLoading(false)
+                    } catch (error) {
+                        console.error(error)
+                    }
+                } else if (res.cancel) {
+                    console.log('用户点击取消')
+                }
+            }
         })
     }
 
@@ -81,7 +95,7 @@ export default function WishItem(props: props) {
                 </View>
             </View>
             <View className="footer">
-                <Image className="delete-icon" mode="widthFix" src={deleteIcon} onClick={() => deleteWish()} ></Image>
+                <Image className="delete-icon" mode="widthFix" src={deleteIcon} onClick={() => deleteWish(item._id)} ></Image>
                 <Image className="edit-icon" mode="widthFix" src={editIcon} onClick={() => editWish(item, index)} ></Image>
             </View>
         </View>

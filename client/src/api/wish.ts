@@ -38,3 +38,9 @@ export function finishWishApi(_id: string, openId: string) {
     openId
   });
 }
+
+export function deleteWishApi(_id: string) {
+  return http.get<string>("wish/v1/delete", {
+    _id,
+  });
+}
