@@ -11,20 +11,25 @@ const app = Taro.getApp()
 interface SetApiLoading {
     (loading: boolean): void;
 }
+
+interface DeleteItem {
+    (index: number): Promise<void>
+}
+
 interface props {
     item: WishInfo
     index: number
     setApiLoading: SetApiLoading
+    deleteItem: DeleteItem
 }
 
 export default function WishItem(props: props) {
-    const { item, index, setApiLoading } = props
+    const { item, index, setApiLoading, deleteItem } = props
 
     const finishWish = async function (_id, index) {
         try {
             setApiLoading(true)
             await finishWishApi(_id, app.globalData.host_open_id)
-            // await finishWishApi(_id, 'o-Owu5KuzM2IK_lsfEVcNiu4lY1Q')
             const updateWish = {
                 item: {
                     ...item,
@@ -62,7 +67,7 @@ export default function WishItem(props: props) {
                     try {
                         setApiLoading(true)
                         await deleteWishApi(_id)
-                        Taro.eventCenter.trigger('deleteWish', index)
+                        deleteItem(index)
                         setApiLoading(false)
                     } catch (error) {
                         console.error(error)

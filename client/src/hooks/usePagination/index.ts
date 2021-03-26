@@ -78,6 +78,49 @@ export default function usePagination<T>(
     return _param;
   }
 
+  async function deleteItem(index: number) {
+    const { pageSize = 10, current: originCurrent } = list.pagination 
+    const deletePageNumber = Math.ceil((index + 1) / pageSize)
+    if (originCurrent === 1) {
+        setState(produce(state, df => {
+          df.loading = true
+        }))
+    } else {
+        let i = deletePageNumber
+        let updateList: PageData<T> = { pagination: { current: 1 }, list: [] }
+        const apiResultList: Promise<Result<Page<T>>>[] = []
+        while (i <= originCurrent) {
+            apiResultList.push(api({
+                ... params,
+                current: i,
+                pageSize: list.pagination.pageSize,
+            }))
+            i++
+        }
+        try {
+            const res = await Promise.all(apiResultList)
+            const { current = 1, lastPage, total } = res[res.length - 1].data
+            let tmpList: T[] = []
+            res.forEach( item => tmpList = tmpList.concat(item.data.list) )
+            updateList.list = JSON.parse(JSON.stringify(list.list))
+            const deleteIndex = (deletePageNumber - 1) * pageSize
+            const deleteCount = (originCurrent - deletePageNumber + 1) * pageSize
+            updateList.list.splice(deleteIndex, deleteCount, ...tmpList)
+            updateList.pagination = {
+                current,
+                pageSize,
+                lastPage,
+                total
+            }
+            setState(produce(state, (draft: typeof state) => {
+              draft.list = updateList
+            }))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+  }
+
   return {
     ...state,
     setLoading: (loading: boolean) => setState(produce(state, df => {
@@ -86,6 +129,7 @@ export default function usePagination<T>(
     setIncreasing: (increasing: boolean) => setState(produce(state, df => {
       df.increasing = increasing
     })),
+    deleteItem,
     setParams,
     resetParams: () => {
       setState(produce(state, df => {

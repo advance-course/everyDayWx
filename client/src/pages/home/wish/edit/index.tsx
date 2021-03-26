@@ -25,7 +25,6 @@ export default function Edit() {
         try {
             await createWishApi({
                 couple_id: Taro.getApp().globalData.couple_id,
-                // couple_id: '79550af260532c9f0ab87e60347730fb',
                 title: titleInput
             })
             Taro.eventCenter.trigger('refreshWish', true)
