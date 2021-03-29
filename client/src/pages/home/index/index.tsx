@@ -25,6 +25,10 @@ export default function Home() {
     }
   }
 
+  const targetToChat = function () {
+    Taro.navigateTo({ url: '/pages/home/chat/index' })
+  }
+  
   return (
     <View className='index'>
       <Text className="title">HOME PAGE.</Text>
@@ -34,6 +38,10 @@ export default function Home() {
       </View>
       <View className="item" onClick={targetToLover}>
         <Text>绑定情侣</Text>
+        <Image className="arrow-icon" mode="widthFix" src={arrowIcon}></Image>
+      </View>
+      <View className="item" onClick={targetToChat}>
+        <Text>情侣聊天</Text>
         <Image className="arrow-icon" mode="widthFix" src={arrowIcon}></Image>
       </View>
     </View>

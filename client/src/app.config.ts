@@ -11,6 +11,7 @@ const config: Config = {
     'pages/home/wish/index/index',
     'pages/home/wish/edit/index',
     'pages/home/lover/index/index',
+    'pages/home/chat/index',
 
     'pages/profile/ui/index',
     'pages/profile/ui/module/index',

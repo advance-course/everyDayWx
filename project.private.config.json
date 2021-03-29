@@ -29,6 +29,12 @@
           "pathName": "pages/home/lover/index/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "情侣聊天页",
+          "pathName": "pages/home/chat/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

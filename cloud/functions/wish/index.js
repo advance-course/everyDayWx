@@ -24,7 +24,6 @@ exports.main = async (event, context) => {
      * @param {title} 心愿标题
      */
     app.router('v1/create', async ctx => {
-        console.log(event)
         const { couple_id, title } = event
         try {
             await wish.add({
