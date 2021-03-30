@@ -7,6 +7,7 @@ export interface ChatItem {
   msgType?: string;
   textContent?: string;
   sendTime?: Date;
+  fail?: boolean
 }
 
 export interface ChatList {

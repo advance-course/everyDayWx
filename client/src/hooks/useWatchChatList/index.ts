@@ -2,11 +2,20 @@ import Taro from "@tarojs/taro";
 import { useState, useEffect } from "react";
 import { getChatListApi, sendTextApi, ChatItem } from "api/chat";
 import { userInfoByOpenIdApi } from "api/user";
+import produce from "immer";
 
 const app = Taro.getApp();
 
 const blankInfo = {
   avatarUrl: ""
+};
+
+const blankMsg = {
+  update: false,
+  index: -1,
+  data: {
+    openId: "0"
+  }
 };
 
 const watchChatList = function(coupleId) {
@@ -36,14 +45,59 @@ const watchChatList = function(coupleId) {
   }
 };
 
+interface State {
+  loading: boolean;
+  errMsg: string;
+  userInfo: any;
+  chatList: ChatItem[];
+}
+interface FailMsg {
+  update: boolean;
+  index: number;
+  data: ChatItem;
+}
+
 export default function useWatchChatList(coupleId: number) {
-  const [chatList, setChatList] = useState<ChatItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [errMsg, setErrMsg] = useState("");
-  const [userInfo, setUserInfo] = useState({
-    loverInfo: blankInfo,
-    hostInfo: blankInfo
+  const [state, setState] = useState<State>({
+    loading: true,
+    errMsg: "",
+    userInfo: { loverInfo: blankInfo, hostInfo: blankInfo },
+    chatList: []
   });
+  const [failMsg, setFailMsg] = useState<FailMsg>(blankMsg);
+
+  const { chatList } = state;
+
+  const setChatList = function(chatList) {
+    setState(
+      produce(state, (proxy: typeof state) => {
+        proxy.chatList = chatList;
+      })
+    );
+  };
+
+  const setErrMsg = function(errMsg) {
+    setState(
+      produce(state, (proxy: typeof state) => {
+        proxy.errMsg = errMsg;
+      })
+    );
+  };
+
+  Taro.eventCenter.off("watchingChatList");
+  Taro.eventCenter.on("watchingChatList", doc =>
+    setChatList([...chatList, doc])
+  );
+
+  useEffect(() => {
+    if (!failMsg.update) return;
+    setState(
+      produce(state, (proxy: typeof state) => {
+        proxy.chatList[failMsg.index] = failMsg.data;
+      })
+    );
+    setFailMsg(blankMsg);
+  }, [failMsg.update]);
 
   useEffect(() => {
     Promise.all([
@@ -52,13 +106,17 @@ export default function useWatchChatList(coupleId: number) {
       getChatListApi(coupleId)
     ])
       .then(res => {
-        setUserInfo({
-          loverInfo: res[0].data,
-          hostInfo: res[1].data
-        });
-        setChatList(res[2].data.chatList);
+        setState(
+          produce(state, (proxy: typeof state) => {
+            proxy.userInfo = {
+              loverInfo: res[0].data,
+              hostInfo: res[1].data
+            };
+            proxy.chatList = res[2].data.chatList;
+            proxy.loading = false;
+          })
+        );
         watchChatList(coupleId);
-        setLoading(false);
       })
       .catch(error => {
         setErrMsg(error);
@@ -83,36 +141,30 @@ export default function useWatchChatList(coupleId: number) {
   }, [chatList]);
 
   const sendText = async function(text) {
-    console.log(text);
+    const doc = {
+      openId: app.globalData.host_open_id,
+      textContent: text,
+      fail: false
+    };
     try {
-      setChatList([
-        ...chatList,
-        {
-          openId: app.globalData.host_open_id,
-          textContent: text
-        }
-      ]);
-      const res = await sendTextApi({
+      setChatList([...chatList, doc]);
+      await sendTextApi({
         text,
         coupleId: app.globalData.couple_id
       });
-      // setChatList([...chatList, res.data])
     } catch (error) {
-      setErrMsg(error);
+      const failDoc = { ...doc, fail: true };
+      setFailMsg({
+        index: chatList.length,
+        data: failDoc,
+        update: true
+      });
       console.error(error);
     }
   };
 
-  Taro.eventCenter.off("watchingChatList");
-  Taro.eventCenter.on("watchingChatList", doc =>
-    setChatList([...chatList, doc])
-  );
-
   return {
-    loading,
-    errMsg,
-    chatList,
-    userInfo,
+    ...state,
     sendText
   };
 }

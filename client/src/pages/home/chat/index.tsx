@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import Provider from 'components/Provider'
 import useWatchChatList from 'hooks/useWatchChatList'
+import errorIcon from './error.png'
 import "./index.scss"
 
 const app = Taro.getApp()
@@ -25,6 +26,7 @@ export default function ChatIndex() {
                         chatList.map(item => (
                             item.openId === app.globalData.host_open_id ?
                                 <View className='message-container host'>
+                                    {item.fail && <Image className="error-icon" mode="widthFix" src={errorIcon}></Image>}
                                     <View className="host-message">{item.textContent}</View>
                                     <Image className="avatar" mode="widthFix" src={userInfo.hostInfo.avatarUrl}></Image>
                                 </View>
