@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Input, Image } from '@tarojs/components'
+import { View, Input } from '@tarojs/components'
 import Provider from 'components/Provider'
+import Message from 'components/home/chat/Message'
 import useWatchChatList from 'hooks/useWatchChatList'
-import errorIcon from './error.png'
 import "./index.scss"
 
 const app = Taro.getApp()
 
 export default function ChatIndex() {
 
-    const { chatList, userInfo, loading, errMsg, sendText } = useWatchChatList(app.globalData.couple_id)
-
-    let titleInput = ''
+    const { chatList, coupleInfo, loading, errMsg, sendText } = useWatchChatList(app.globalData.couple_id)
+    const [text, setText] = useState('')
 
     const onInput = function (e) {
-        titleInput = e.detail.value
+        setText(e.detail.value)
+    }
+    const handleSendText = function () {
+        sendText(text)
+        setText('')
     }
 
     return (
@@ -23,23 +26,14 @@ export default function ChatIndex() {
             <View className="container">
                 <View className="chat-content">
                     {
-                        chatList.map(item => (
-                            item.openId === app.globalData.host_open_id ?
-                                <View className='message-container host'>
-                                    {item.fail && <Image className="error-icon" mode="widthFix" src={errorIcon}></Image>}
-                                    <View className="host-message">{item.textContent}</View>
-                                    <Image className="avatar" mode="widthFix" src={userInfo.hostInfo.avatarUrl}></Image>
-                                </View>
-                                : <View className="message-container">
-                                    <Image className="avatar" mode="widthFix" src={userInfo.loverInfo.avatarUrl}></Image>
-                                    <View className="lover-message">{item.textContent}</View>
-                                </View>
-                        ))
+                        chatList.map(item =>
+                            <Message message={item} coupleInfo={coupleInfo} host={item.openId === app.globalData.host_open_id}></Message>
+                        )
                     }
                 </View>
                 <View className="input">
-                    <Input className="input-area" type='text' placeholder='请输入聊天内容' focus value={titleInput} onInput={onInput}></Input>
-                    <View className="send-btn" onClick={() => sendText(titleInput)}>发送</View>
+                    <Input className="input-area" type='text' placeholder='请输入聊天内容' focus value={text} onInput={onInput}></Input>
+                    <View className="send-btn" onClick={() => handleSendText()}>发送</View>
                 </View>
             </View>
         </Provider>

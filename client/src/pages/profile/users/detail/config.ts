@@ -13,6 +13,21 @@ export const defaultDetails = {
   language: "zh_CN" as const
 };
 
+export function getDefUserDetails() {
+  return {
+    nickName: "",
+    avatarUrl: "",
+    gender: 1 as const,
+    type: 3 as const,
+    province: "",
+    country: "",
+    city: "",
+    district: "",
+    createTime: 0,
+    language: "zh_CN" as const
+  };
+}
+
 export const genderIcon = {
   0: "",
   1: images.male,

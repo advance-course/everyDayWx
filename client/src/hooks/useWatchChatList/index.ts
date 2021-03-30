@@ -1,23 +1,13 @@
 import Taro from "@tarojs/taro";
 import { useState, useEffect } from "react";
-import { getChatListApi, sendTextApi, ChatItem } from "api/chat";
+import { getChatListApi, sendTextApi } from "api/chat";
 import { userInfoByOpenIdApi } from "api/user";
+import { getDefChatState, getDefErrorInfo, State, FailMsg } from "./entity";
 import produce from "immer";
 
 const app = Taro.getApp();
 
-const blankInfo = {
-  avatarUrl: ""
-};
-
-const blankMsg = {
-  update: false,
-  index: -1,
-  data: {
-    openId: "0"
-  }
-};
-
+// 监听聊天数据变化
 const watchChatList = function(coupleId) {
   const db = Taro.cloud.database({
     // env: cloud.DYNAMIC_CURRENT_ENV
@@ -45,28 +35,11 @@ const watchChatList = function(coupleId) {
   }
 };
 
-interface State {
-  loading: boolean;
-  errMsg: string;
-  userInfo: any;
-  chatList: ChatItem[];
-}
-interface FailMsg {
-  update: boolean;
-  index: number;
-  data: ChatItem;
-}
-
 export default function useWatchChatList(coupleId: number) {
-  const [state, setState] = useState<State>({
-    loading: true,
-    errMsg: "",
-    userInfo: { loverInfo: blankInfo, hostInfo: blankInfo },
-    chatList: []
-  });
-  const [failMsg, setFailMsg] = useState<FailMsg>(blankMsg);
+  const [state, setState] = useState<State>(getDefChatState());
+  const [failMsg, setFailMsg] = useState<FailMsg>(getDefErrorInfo());
 
-  const { chatList } = state;
+  const chatList = state.chatList;
 
   const setChatList = function(chatList) {
     setState(
@@ -89,16 +62,7 @@ export default function useWatchChatList(coupleId: number) {
     setChatList([...chatList, doc])
   );
 
-  useEffect(() => {
-    if (!failMsg.update) return;
-    setState(
-      produce(state, (proxy: typeof state) => {
-        proxy.chatList[failMsg.index] = failMsg.data;
-      })
-    );
-    setFailMsg(blankMsg);
-  }, [failMsg.update]);
-
+  // 初始化聊天数据 & 情侣信息
   useEffect(() => {
     Promise.all([
       userInfoByOpenIdApi(app.globalData.lover_open_id),
@@ -108,7 +72,7 @@ export default function useWatchChatList(coupleId: number) {
       .then(res => {
         setState(
           produce(state, (proxy: typeof state) => {
-            proxy.userInfo = {
+            proxy.coupleInfo = {
               loverInfo: res[0].data,
               hostInfo: res[1].data
             };
@@ -124,6 +88,7 @@ export default function useWatchChatList(coupleId: number) {
       });
   }, []);
 
+  // 获取新数据后置底 & 缓存
   useEffect(() => {
     if (!chatList.length) {
       const chatRecord = Taro.getStorageSync("chatRecord");
@@ -136,29 +101,35 @@ export default function useWatchChatList(coupleId: number) {
       });
     }, 500);
     return () => {
+      // ? 怎样在仅整个页面组件销毁时缓存
       Taro.setStorageSync("chatRecord", chatList);
     };
   }, [chatList]);
 
+  // 发送失败设置状态
+  useEffect(() => {
+    if (!failMsg.update) return;
+    setState(
+      produce(state, (proxy: typeof state) => {
+        proxy.chatList[failMsg.index].fail = true;
+      })
+    );
+    setFailMsg(getDefErrorInfo());
+  }, [failMsg.update]);
+
+  // 发送文字消息
   const sendText = async function(text) {
     const doc = {
       openId: app.globalData.host_open_id,
       textContent: text,
+      msgType: "text",
       fail: false
     };
     try {
       setChatList([...chatList, doc]);
-      await sendTextApi({
-        text,
-        coupleId: app.globalData.couple_id
-      });
+      await sendTextApi({ text, coupleId: app.globalData.couple_id });
     } catch (error) {
-      const failDoc = { ...doc, fail: true };
-      setFailMsg({
-        index: chatList.length,
-        data: failDoc,
-        update: true
-      });
+      setFailMsg({ index: chatList.length, update: true });
       console.error(error);
     }
   };

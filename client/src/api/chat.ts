@@ -1,6 +1,6 @@
 import http from "utils/http";
 
-export interface ChatItem {
+export interface Message {
   _id?: string;
   coupleId?: string;
   openId: string;
@@ -11,7 +11,7 @@ export interface ChatItem {
 }
 
 export interface ChatList {
-  chatList: ChatItem[];
+  chatList: Message[];
 }
 
 export function getChatListApi(coupleId) {
@@ -19,5 +19,5 @@ export function getChatListApi(coupleId) {
 }
 
 export function sendTextApi(chatContent) {
-  return http.post<ChatItem>("chat/v1/send/text", chatContent);
+  return http.post<Message>("chat/v1/send/text", chatContent);
 }
