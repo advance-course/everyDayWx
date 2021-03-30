@@ -12,14 +12,15 @@ interface props {
 export default function Provider(props: props) {
     const { errMsg, loading } = props
     if (loading) {
-        return (
-            <View className="loadingio-spinner-spinner-ph286q2307f">
-                <View className="ldio-avcon1hx5rb">
-                    <View></View><View></View><View></View><View></View><View></View><View></View><View></View><View></View><View></View><View></View><View></View><View></View>
-                </View>
-            </View>
-        )
+        Taro.showToast({
+            title: '数据加载中',
+            icon: 'loading',
+            duration: 2000
+        })
+    } else {
+        Taro.hideToast()
     }
+
     if (errMsg && !loading) {
         return (
             <View className="error-msg">
@@ -27,6 +28,7 @@ export default function Provider(props: props) {
             </View>
         )
     }
+    
     return (
         <View className="provider">
             { props.children}
