@@ -224,5 +224,19 @@ exports.main = async (event, context) => {
     }
   })
 
+  /**
+   * @description 查询用户基本信息
+   * @param {openId} 用户openId
+   */
+  app.router('v1/infoV2', async ctx => {
+     const { openId } = event
+    try {
+      const res = await user.where({ openid: openId }).get();
+      ctx.body = { success: true, code: 200, message: '请求成功', data: res.data[0] }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
   return app.serve();
 }

@@ -67,6 +67,12 @@ export function userInfoApi(userid: string) {
   })
 }
 
+export function userInfoByOpenIdApi(openId: string) {
+  return http.get<Userinfo>('user/v1/infoV2', {
+    openId
+  })
+}
+
 export function coupleBindApi(prams) {
   return http.post<any>('user/v1/couple/bind', prams)
 }
