@@ -9,8 +9,7 @@ import "./index.scss"
 const app = Taro.getApp()
 
 export default function ChatIndex() {
-
-    const { chatList, coupleInfo, loading, errMsg, sendText } = useWatchChatList(app.globalData.couple_id)
+    const { chatList, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
     const [text, setText] = useState('')
 
     const onInput = function (e) {

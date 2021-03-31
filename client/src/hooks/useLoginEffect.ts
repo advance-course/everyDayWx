@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {loginApi,coupleBindApi} from 'api/user'
+import {loginApi} from 'api/user'
 import Taro from '@tarojs/taro'
 
 // 预留配置项
@@ -26,12 +26,18 @@ export default function useLoginEffect(cb: () => any, options: LoginOptions = {}
       return
     }
     if (isLaunch) {
+      Taro.showToast({
+        title: 'Logging in',
+        icon: 'loading',
+        duration: 2000
+    })
       loginApi()
         .then(res => {
           const app = Taro.getApp()
           app.globalData = {...res.data}
           setReresh(false)
           cb()
+          Taro.hideToast()
         })
         .catch(error => {
           console.error(error)
@@ -39,6 +45,7 @@ export default function useLoginEffect(cb: () => any, options: LoginOptions = {}
           Taro.eventCenter.on(`${launchPageInfo.path}/login`, cb)
           Taro.navigateTo({url: '/pages/home/login/index'})
           setReresh(false)
+          Taro.hideToast()
         })
     }
   }, [refresh])

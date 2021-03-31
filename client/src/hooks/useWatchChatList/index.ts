@@ -23,22 +23,22 @@ const watchChatList = function(coupleId) {
     });
   function onRealtimeMessageSnapshot(snapshot) {
     console.warn(`收到消息`, snapshot);
-    if (snapshot.type !== "init") {
-      for (const docChange of snapshot.docChanges) {
-        switch (docChange.queueType) {
-          case "enqueue": {
-            Taro.eventCenter.trigger("watchingChatList", docChange.doc);
-          }
+    if (snapshot.type === "init") return;
+    for (const docChange of snapshot.docChanges) {
+      switch (docChange.queueType) {
+        case "enqueue": {
+          Taro.eventCenter.trigger("watchingChatList", docChange.doc);
         }
       }
     }
   }
 };
 
-export default function useWatchChatList(coupleId: number) {
+export default function useWatchChatList() {
   const [state, setState] = useState<State>(getDefChatState());
   const [failMsg, setFailMsg] = useState<FailMsg>(getDefErrorInfo());
 
+  const coupleId = app.globalData.couple_id
   const chatList = state.chatList;
 
   const setChatList = function(chatList) {
