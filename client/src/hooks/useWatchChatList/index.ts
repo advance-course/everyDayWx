@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
-import { useState, useEffect } from "react";
-import { getChatListApi, sendTextApi } from "api/chat";
+import { useState, useEffect, useRef } from "react";
+import { getChatListApi, sendTextApi, Message } from "api/chat";
 import { userInfoByOpenIdApi } from "api/user";
 import { getDefChatState, getDefErrorInfo, State, FailMsg } from "./entity";
 import produce from "immer";
@@ -35,10 +35,11 @@ const watchChatList = function(coupleId) {
 };
 
 export default function useWatchChatList() {
+  const ref = useRef<Message[]>([]);
   const [state, setState] = useState<State>(getDefChatState());
   const [failMsg, setFailMsg] = useState<FailMsg>(getDefErrorInfo());
 
-  const coupleId = app.globalData.couple_id
+  const coupleId = app.globalData.couple_id;
   const chatList = state.chatList;
 
   const setChatList = function(chatList) {
@@ -57,13 +58,12 @@ export default function useWatchChatList() {
     );
   };
 
-  Taro.eventCenter.off("watchingChatList");
-  Taro.eventCenter.on("watchingChatList", doc =>
-    setChatList([...chatList, doc])
-  );
-
   // 初始化聊天数据 & 情侣信息
   useEffect(() => {
+    if (!chatList.length) {
+      const chatRecord = Taro.getStorageSync("chatRecord");
+      chatRecord.length && setChatList(chatRecord);
+    }
     Promise.all([
       userInfoByOpenIdApi(app.globalData.lover_open_id),
       userInfoByOpenIdApi(app.globalData.host_open_id),
@@ -81,29 +81,29 @@ export default function useWatchChatList() {
           })
         );
         watchChatList(coupleId);
+        Taro.eventCenter.on("watchingChatList", doc =>
+          setChatList([...chatList, doc])
+        );
       })
       .catch(error => {
         setErrMsg(error);
         console.error(error);
       });
+    return () => {
+      Taro.setStorageSync("chatRecord", ref.current);
+      Taro.eventCenter.off("watchingChatList");
+    };
   }, []);
 
-  // 获取新数据后置底 & 缓存
+  // 获取新数据后相关操作
   useEffect(() => {
-    if (!chatList.length) {
-      const chatRecord = Taro.getStorageSync("chatRecord");
-      chatRecord.length && setChatList(chatRecord);
-    }
     setTimeout(() => {
-      Taro.pageScrollTo({
+      Taro.pageScrollTo({ // 置底
         scrollTop: 100000,
         duration: 0
       });
     }, 500);
-    return () => {
-      // ? 怎样在仅整个页面组件销毁时缓存
-      Taro.setStorageSync("chatRecord", chatList);
-    };
+    ref.current = chatList; // 保存数据
   }, [chatList]);
 
   // 发送失败设置状态

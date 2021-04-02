@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Taro, { usePullDownRefresh, useReachBottom } from "@tarojs/taro";
 import { View, Image } from '@tarojs/components'
 import { getAllWishApi, WishInfo } from "api/wish";
@@ -19,11 +19,14 @@ export default function Index() {
     }, false)
     const [apiLoading, setApiLoading] = useState(false)
 
-    Taro.eventCenter.off('refreshWish')
-    Taro.eventCenter.on('refreshWish', setLoading)
-
-    Taro.eventCenter.off('updateWish')
-    Taro.eventCenter.on('updateWish', updateList)
+    useEffect(() => {
+        Taro.eventCenter.on('refreshWish', setLoading)
+        Taro.eventCenter.on('updateWish', updateList)
+        return () => {
+            Taro.eventCenter.off('refreshWish')
+            Taro.eventCenter.off('updateWish')
+        }
+    }, [])
 
     useReachBottom(() => {
         if (!list.pagination.lastPage) {
