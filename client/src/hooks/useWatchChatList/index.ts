@@ -35,7 +35,7 @@ const watchChatList = function(coupleId) {
 };
 
 export default function useWatchChatList() {
-  const ref = useRef<Message[]>([]);
+  const ref = useRef<State>(getDefChatState());
   const [state, setState] = useState<State>(getDefChatState());
   const [failMsg, setFailMsg] = useState<FailMsg>(getDefErrorInfo());
 
@@ -44,7 +44,7 @@ export default function useWatchChatList() {
 
   const setChatList = function(chatList) {
     setState(
-      produce(state, (proxy: typeof state) => {
+      produce(ref.current, (proxy: typeof state) => {
         proxy.chatList = chatList;
       })
     );
@@ -52,7 +52,7 @@ export default function useWatchChatList() {
 
   const setErrMsg = function(errMsg) {
     setState(
-      produce(state, (proxy: typeof state) => {
+      produce(ref.current, (proxy: typeof state) => {
         proxy.errMsg = errMsg;
       })
     );
@@ -61,8 +61,8 @@ export default function useWatchChatList() {
   // 初始化聊天数据 & 情侣信息
   useEffect(() => {
     if (!chatList.length) {
-      const chatRecord = Taro.getStorageSync("chatRecord");
-      chatRecord.length && setChatList(chatRecord);
+      const chatStorage = Taro.getStorageSync("chatStorage");
+      chatStorage && chatStorage.chatList.length && setState(chatStorage);
     }
     Promise.all([
       userInfoByOpenIdApi(app.globalData.lover_open_id),
@@ -82,7 +82,7 @@ export default function useWatchChatList() {
         );
         watchChatList(coupleId);
         Taro.eventCenter.on("watchingChatList", doc =>
-          setChatList([...chatList, doc])
+          setChatList([...ref.current.chatList, doc])
         );
       })
       .catch(error => {
@@ -90,20 +90,20 @@ export default function useWatchChatList() {
         console.error(error);
       });
     return () => {
-      Taro.setStorageSync("chatRecord", ref.current);
+      Taro.setStorageSync("chatStorage", ref.current);
       Taro.eventCenter.off("watchingChatList");
     };
   }, []);
 
   // 获取新数据后相关操作
   useEffect(() => {
-    setTimeout(() => {
-      Taro.pageScrollTo({ // 置底
-        scrollTop: 100000,
+    Taro.nextTick(() => {
+      Taro.pageScrollTo({
+        scrollTop: 100000, // 置底
         duration: 0
       });
-    }, 500);
-    ref.current = chatList; // 保存数据
+    });
+    ref.current = state; // 保存数据
   }, [chatList]);
 
   // 发送失败设置状态

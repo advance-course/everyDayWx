@@ -6,8 +6,6 @@ import Message from 'components/home/chat/Message'
 import useWatchChatList from 'hooks/useWatchChatList'
 import "./index.scss"
 
-const app = Taro.getApp()
-
 export default function ChatIndex() {
     const { chatList, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
     const [text, setText] = useState('')
@@ -26,7 +24,7 @@ export default function ChatIndex() {
                 <View className="chat-content">
                     {
                         chatList.map(item =>
-                            <Message message={item} coupleInfo={coupleInfo} host={item.openId === app.globalData.host_open_id}></Message>
+                            <Message message={item} coupleInfo={coupleInfo} host={item.openId === coupleInfo.hostInfo.openid}></Message>
                         )
                     }
                 </View>

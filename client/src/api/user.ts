@@ -13,6 +13,7 @@ export interface Userinfo extends UserInfo {
    */
   createTime: number,
   district: string,
+  openid?: string,
   type?: 1 | 2 | 3 | 4,
   phone?: string
 }
