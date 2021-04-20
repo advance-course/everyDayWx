@@ -14,7 +14,7 @@ const watchChatList = function(coupleId) {
     env: "develop-1gsdlqw8ff792ed2"
   });
   db.collection("chat")
-    .where({ coupleId, userId: app.globalData.lover_user_id })
+    .where({ userId: app.globalData.lover_user_id })
     .watch({
       onChange: onRealtimeMessageSnapshot,
       onError: e => {

@@ -28,41 +28,40 @@ export default function Index() {
       })
       return
     }
-    setTimeout(() => {
-      if (lover_user_id && app.globalData && lover_user_id !== app.globalData.host_user_id) {
-        Taro.showModal({
-          title: '提示',
-          content: '是否同意绑定情侣',
-          async success(res) {
-            if (res.confirm) {
-              try {
-                setLoading(true)
-                const res = await coupleBindApi({
-                  user_id: app.globalData.host_user_id,
-                  lover_user_id,
-                })
-                app.globalData.couple_id = res.data.couple_id
-                app.globalData.lover_user_id = lover_user_id
-                setLoading(false)
-                Taro.switchTab({
-                  url: '/pages/home/index/index'
-                })
-                Taro.showToast({
-                  title: '绑定成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              } catch (error) {
-                console.error(error)
-                setErrMsg(error.message)
-              }
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+    if (lover_user_id && app.globalData && lover_user_id !== app.globalData.host_user_id) {
+      Taro.showModal({
+        title: '提示',
+        content: '是否同意绑定情侣',
+        async success(res) {
+          if (res.confirm) {
+            try {
+              setLoading(true)
+              const res = await coupleBindApi({
+                user_id: app.globalData.host_user_id,
+                lover_user_id,
+              })
+              app.globalData.couple_id = res.data.couple_id
+              app.globalData.lover_user_id = lover_user_id
+              setLoading(false)
+              Taro.switchTab({
+                url: '/pages/home/index/index'
+              })
+              Taro.showToast({
+                title: '绑定成功',
+                icon: 'success',
+                duration: 2000
+              })
+            } catch (error) {
+              console.error(error)
+              setLoading(false)
+              setErrMsg(error.message)
             }
+          } else if (res.cancel) {
+            console.log('用户点击取消')
           }
-        })
-      }
-    })
+        }
+      })
+    }
   })
 
   useShareAppMessage(() => {

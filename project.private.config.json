@@ -25,9 +25,9 @@
           "scene": null
         },
         {
-          "name": "绑定情侣页",
+          "name": "绑定情侣页（被邀请）",
           "pathName": "pages/home/lover/index/index",
-          "query": "",
+          "query": "lover_user_id=28ee4e3e605afc970c56e8a855f03768",
           "scene": null
         },
         {

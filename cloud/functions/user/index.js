@@ -66,7 +66,6 @@ exports.main = async (event, context) => {
 
     const data = {
       info, 
-      host_user_id: userInfo._id,
       lover_user_id:0,
       couple_id:0
     }
@@ -74,6 +73,7 @@ exports.main = async (event, context) => {
     try {
       const res = await user.add({ data: info });
       delete info.openid
+      data.host_user_id = res._id
       // ctx.body = { success: true, code: 200, message: '注册成功', data: {...info, _id: res._id}}
       ctx.body = { success: true, code: 200, message: '注册成功', data}
     } catch (e) {
@@ -212,15 +212,40 @@ exports.main = async (event, context) => {
   // 情侣绑定
   app.router('v1/couple/bind', async (ctx) => {
     const { user_id, lover_user_id } = event;
-    const data = {
-      user_id1: user_id, 
-      user_id2: lover_user_id
-    }
     try {
+      async function checkUnique(userId) {
+        const res = await couple.where(_.or([
+          {
+            user_id1: _.eq(userId)
+          },
+          {
+            user_id2: _.eq(userId)
+          }
+        ])).get()
+        console.log(res)
+        if (res.data.length) return false
+        return true
+      }
+
+      if (!await checkUnique(user_id)) {
+        ctx.body = { success: false, code: 001, message: '您已绑定情侣关系，不能重复绑定' }
+        return
+      }
+
+      if (!await checkUnique(lover_user_id)) {
+        ctx.body = { success: false, code: 001, message: '对方已绑定情侣关系，不能重复绑定' }
+        return
+      }
+
+      const data = {
+        user_id1: user_id,
+        user_id2: lover_user_id
+      }
       const res = await couple.add({ data });
-      ctx.body = { success: true, code: 200, message: '绑定成功', data: {couple_id: res._id} }
+      ctx.body = { success: true, code: 200, message: '绑定成功', data: { couple_id: res._id } }
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+      return
     }
   })
 

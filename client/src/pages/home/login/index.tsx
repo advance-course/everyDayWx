@@ -17,8 +17,8 @@ export default function LoginPage() {
       app.globalData = {...response.data}
       Taro.hideLoading()
       Taro.showToast({ title: '登陆成功！', icon: 'success' })
-      Taro.eventCenter.trigger(`${Taro.getLaunchOptionsSync().path}/login`)
       Taro.navigateBack()
+      Taro.eventCenter.trigger(`${Taro.getLaunchOptionsSync().path}/login`)
     } catch(e) {
       Taro.hideLoading()
       Taro.showToast({title: e.message, icon: 'none'})
