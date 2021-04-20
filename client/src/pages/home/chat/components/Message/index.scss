@@ -10,6 +10,7 @@
       border-radius: 50%;
     }
     .lover-message {
+      position: relative;
       padding: 20px 25px;
       margin-left: 30px;
       background-color: #fff;
@@ -19,7 +20,7 @@
       content:"";
       position:absolute;
       top: 50%;
-      left:68px;
+      left:-36px;
       transform: translateY(-50%);
       display: block;
       width:0px;
@@ -36,6 +37,7 @@
       margin-right: 8px;
     }
     .host-message {
+      position: relative;
       padding: 20px 25px;
       margin-right: 30px;
       background-color: #91ED61;
@@ -45,7 +47,7 @@
       content:"";
       position:absolute;
       top: 50%;
-      right:68px;
+      right:-36px;
       transform: translateY(-50%);
       display: block;
       width:0px;
