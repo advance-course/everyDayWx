@@ -1,7 +1,7 @@
 import React from "react";
 import Taro from "@tarojs/taro";
 import { View, Image, Text } from "@tarojs/components";
-import { Message as IMessage } from "api/chat";
+import { Message as IMessage } from "pages/home/chat/api/chat";
 import { Userinfo } from "api/user";
 import errorIcon from './error.png'
 import './index.scss'

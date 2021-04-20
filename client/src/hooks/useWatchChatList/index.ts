@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import { useState, useEffect, useRef } from "react";
-import { getChatListApi, sendTextApi, Message } from "api/chat";
+import { getChatListApi, sendTextApi, Message } from "pages/home/chat/api/chat";
 import { userInfoByOpenIdApi } from "api/user";
 import { getDefChatState, getDefErrorInfo, State, FailMsg } from "./entity";
 import produce from "immer";

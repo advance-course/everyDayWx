@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Input } from '@tarojs/components'
 import Provider from 'components/Provider'
-import Message from 'components/home/chat/Message'
+import Message from 'pages/home/chat/components/Message'
 import useWatchChatList from 'hooks/useWatchChatList'
 import "./index.scss"
 

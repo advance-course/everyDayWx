@@ -3,7 +3,7 @@ import Taro, { getCurrentInstance } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import { userInfoApi, userUpdateApi, userTypeDesc, Userinfo } from "api/user";
 import useInitData from 'hooks/useInitData'
-import ListRow from "components/ListRow";
+import ListRow from "pages/profile/users/components/ListRow";
 import Provider from "components/Provider";
 import * as images from './img/images'
 import { defaultDetails, genderIcon, language } from './config'

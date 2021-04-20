@@ -1,6 +1,6 @@
 import { getDefUserDetails } from "pages/profile/users/detail/config";
 import { Userinfo } from "api/user";
-import { Message } from "api/chat";
+import { Message } from "pages/home/chat/api/chat";
 
 export interface State {
   loading: boolean;

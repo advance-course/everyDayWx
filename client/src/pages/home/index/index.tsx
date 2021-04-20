@@ -1,7 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import MenuItem from 'components/home/index/MenuItem'
+import MenuItem from 'pages/home/index/components/MenuItem'
 import useLoginEffect from 'hooks/useLoginEffect'
 import './index.scss'
 

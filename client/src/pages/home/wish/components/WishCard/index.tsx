@@ -1,7 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
-import { finishWishApi, deleteWishApi, WishInfo } from "api/wish";
+import { finishWishApi, deleteWishApi, WishInfo } from "pages/home/wish/api/wish";
 import "./index.scss"
 import editIcon from './edit.png'
 import deleteIcon from './delete.png'

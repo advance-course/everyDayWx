@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Taro, { usePullDownRefresh, useReachBottom } from "@tarojs/taro";
 import { View, Image } from '@tarojs/components'
-import { getAllWishApi, WishInfo } from "api/wish";
+import { getAllWishApi, WishInfo } from "pages/home/wish/api/wish";
 import usePagination from 'hooks/usePagination/index'
 import PaginationProvider from 'components/PaginationProvider'
-import WishItem from 'components/home/wish/WishCard'
+import WishItem from 'pages/home/wish/components/WishCard'
 import "./index.scss"
 import createIcon from './create.png'
 
