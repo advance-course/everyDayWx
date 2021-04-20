@@ -12,11 +12,13 @@ exports.main = async (event, context) => {
     const { OPENID } = cloud.getWXContext()
     const db = cloud.database();
     const wish = db.collection('wish');
+    const user = db.collection('user');
     const couple = db.collection('couple');
     const _ = db.command
     const app = new TcbRouter({
         event
     });
+    const info = await user.where({ openid: OPENID, }).get()
 
     /**
      * 创建情侣心愿
@@ -88,12 +90,12 @@ exports.main = async (event, context) => {
             }).skip(start).limit(pageSize).get();
 
             const { data: coupleInfo } = await couple.doc(couple_id).get()
-            const lover_open_id = OPENID === coupleInfo.user_open_id1 ? coupleInfo.user_open_id2 : coupleInfo.user_open_id1
+            const lover_user_id = info.data[0]._id === coupleInfo.user_id1 ? coupleInfo.user_id2 : coupleInfo.user_id1
             const list = wishData.data.map(wish => {
                 const data = {
                     ...wish,
-                    host_finish: ((wish.finisher.findIndex(finisher => finisher === OPENID)) !== -1),
-                    lover_finish: wish.finisher.findIndex(finisher => finisher === lover_open_id) !== -1,
+                    host_finish: ((wish.finisher.findIndex(finisher => finisher === info.data[0]._id)) !== -1),
+                    lover_finish: wish.finisher.findIndex(finisher => finisher === lover_user_id) !== -1,
                     progress: wish.finisher.length / 2 * 100
                 }
                 delete data.finisher
@@ -178,15 +180,15 @@ exports.main = async (event, context) => {
     /**
     * 完成情侣心愿
     * @param {id} 心愿id
-    * @param {openId} 心愿标题
+    * @param {userId} 心愿标题
     */
     app.router('v1/finish', async ctx => {
-        const { _id, openId } = event
+        const { _id, userId } = event
         console.log(event)
         try {
             const res = await wish.doc(_id).update({
                 data: {
-                    finisher: _.push(openId)
+                    finisher: _.push(userId)
                 }
             })
             console.log(res)

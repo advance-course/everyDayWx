@@ -66,8 +66,8 @@ exports.main = async (event, context) => {
 
     const data = {
       info, 
-      host_open_id:OPENID,
-      lover_open_id:0,
+      host_user_id: userInfo._id,
+      lover_user_id:0,
       couple_id:0
     }
 
@@ -92,20 +92,20 @@ exports.main = async (event, context) => {
       if (info.data.length) {
         res = await couple.where(_.or([
           {
-            user_open_id1: _.eq(OPENID)
+            user_id1: _.eq(info.data[0]._id)
           },
           {
-            user_open_id2: _.eq(OPENID)
+            user_id2: _.eq(info.data[0]._id)
           }
         ])).get()
         
-        let lover_open_id, couple_id
+        let lover_user_id, couple_id
 
         if (res.data.length) {
-          lover_open_id = OPENID === res.data[0].user_open_id1 ? res.data[0].user_open_id2 : res.data[0].user_open_id1,
+         lover_user_id = info.data[0]._id === res.data[0].user_id1 ? res.data[0].user_id2 : res.data[0].user_id1
             couple_id = res.data[0]._id
         } else {
-          lover_open_id = 0
+         lover_user_id = 0
           couple_id = 0
         }
 
@@ -115,8 +115,8 @@ exports.main = async (event, context) => {
           message: '请求成功',
           data: {
             info: info.data[0],
-            host_open_id: OPENID,
-            lover_open_id,
+            host_user_id: info.data[0]._id,
+            lover_user_id,
             couple_id
           },
         }
@@ -211,10 +211,10 @@ exports.main = async (event, context) => {
 
   // 情侣绑定
   app.router('v1/couple/bind', async (ctx) => {
-    const { open_id, lover_open_id } = event;
+    const { user_id, lover_user_id } = event;
     const data = {
-      user_open_id1: open_id, 
-      user_open_id2: lover_open_id
+      user_id1: user_id, 
+      user_id2: lover_user_id
     }
     try {
       const res = await couple.add({ data });

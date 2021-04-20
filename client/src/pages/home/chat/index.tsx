@@ -24,12 +24,12 @@ export default function ChatIndex() {
         <View className="chat-content">
           {
             chatList.map(item =>
-              <Message message={item} coupleInfo={coupleInfo} host={item.openId === coupleInfo.hostInfo.openid}></Message>
+              <Message message={item} coupleInfo={coupleInfo} host={item.userId === coupleInfo.hostInfo._id}></Message>
             )
           }
         </View>
         <View className="input">
-          <Input className="input-area" type='text' placeholder='请输入聊天内容' focus value={text} onInput={onInput}></Input>
+          <Input className="input-area" type='text' placeholder='请输入聊天内容' value={text} onInput={onInput}></Input>
           <View className="send-btn" onClick={() => handleSendText()}>发送</View>
         </View>
       </View>

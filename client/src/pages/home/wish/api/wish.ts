@@ -32,10 +32,10 @@ export function editWishApi(_id: string, wishinfo: WishInfo) {
   });
 }
 
-export function finishWishApi(_id: string, openId: string) {
+export function finishWishApi(_id: string, userId: string) {
   return http.get<string>("wish/v1/finish", {
     _id,
-    openId
+    userId
   });
 }
 

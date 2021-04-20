@@ -11,7 +11,6 @@ cloud.init({
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   const db = cloud.database();
-  const couple = db.collection('couple');
   const chat = db.collection('chat');
   const _ = db.command
   const app = new TcbRouter({
@@ -19,9 +18,10 @@ exports.main = async (event, context) => {
   });
 
 
+
   /**
-  * 发送文字消息
-  * @param {text} 消息内容
+  * 查询聊天记录
+  * @param {coupleId} 情侣ID
   */
   app.router('v1/chatList', async ctx => {
     const { coupleId } = event
@@ -53,10 +53,10 @@ exports.main = async (event, context) => {
   * @param {text} 消息内容
   */
   app.router('v1/send/text', async ctx => {
-    const { coupleId, text } = event
+    const { coupleId, userId, text } = event
     const doc = {
       coupleId,
-      openId: OPENID,
+      userId: userId,
       msgType: 'text',
       textContent: text,
       sendTime: Date.now(),

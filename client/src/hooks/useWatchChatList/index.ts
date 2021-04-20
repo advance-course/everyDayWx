@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 import { useState, useEffect, useRef } from "react";
 import { getChatListApi, sendTextApi, Message } from "pages/home/chat/api/chat";
-import { userInfoByOpenIdApi } from "api/user";
+import { userInfoApi } from "api/user";
 import { getDefChatState, getDefErrorInfo, State, FailMsg } from "./entity";
 import produce from "immer";
 
@@ -14,7 +14,7 @@ const watchChatList = function(coupleId) {
     env: "develop-1gsdlqw8ff792ed2"
   });
   db.collection("chat")
-    .where({ coupleId, openId: app.globalData.lover_open_id })
+    .where({ coupleId, userId: app.globalData.lover_user_id })
     .watch({
       onChange: onRealtimeMessageSnapshot,
       onError: e => {
@@ -65,8 +65,8 @@ export default function useWatchChatList() {
       chatStorage && chatStorage.chatList.length && setState(chatStorage);
     }
     Promise.all([
-      userInfoByOpenIdApi(app.globalData.lover_open_id),
-      userInfoByOpenIdApi(app.globalData.host_open_id),
+      userInfoApi(app.globalData.lover_user_id),
+      userInfoApi(app.globalData.host_user_id),
       getChatListApi(coupleId)
     ])
       .then(res => {
@@ -120,14 +120,18 @@ export default function useWatchChatList() {
   // 发送文字消息
   const sendText = async function(text) {
     const doc = {
-      openId: app.globalData.host_open_id,
+      userId: app.globalData.host_user_id,
       textContent: text,
       msgType: "text",
       fail: false
     };
     try {
       setChatList([...chatList, doc]);
-      await sendTextApi({ text, coupleId: app.globalData.couple_id });
+      await sendTextApi({
+        text,
+        userId: app.globalData.host_user_id,
+        coupleId: app.globalData.couple_id
+      });
     } catch (error) {
       setFailMsg({ index: chatList.length, update: true });
       console.error(error);

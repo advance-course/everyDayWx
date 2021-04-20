@@ -7,11 +7,11 @@ import Provider from 'components/Provider'
 import "./index.scss"
 
 const app = Taro.getApp()
-let lover_open_id = ''
+let lover_user_id = ''
 
 export default function Index() {
   const params = getCurrentInstance().router?.params || {}
-  if (params.lover_open_id) lover_open_id = params.lover_open_id
+  if (params.lover_user_id) lover_user_id = params.lover_user_id
   const [loading, setLoading] = useState(true)
   const [errMsg, setErrMsg] = useState('')
 
@@ -29,7 +29,7 @@ export default function Index() {
       return
     }
     setTimeout(() => {
-      if (lover_open_id && app.globalData && lover_open_id !== app.globalData.host_open_id) {
+      if (lover_user_id && app.globalData && lover_user_id !== app.globalData.host_user_id) {
         Taro.showModal({
           title: '提示',
           content: '是否同意绑定情侣',
@@ -38,11 +38,11 @@ export default function Index() {
               try {
                 setLoading(true)
                 const res = await coupleBindApi({
-                  open_id: app.globalData.host_open_id,
-                  lover_open_id,
+                  user_id: app.globalData.host_user_id,
+                  lover_user_id,
                 })
                 app.globalData.couple_id = res.data.couple_id
-                app.globalData.lover_open_id = lover_open_id
+                app.globalData.lover_user_id = lover_user_id
                 setLoading(false)
                 Taro.switchTab({
                   url: '/pages/home/index/index'
@@ -68,7 +68,7 @@ export default function Index() {
   useShareAppMessage(() => {
     return {
       title: '绑定情侣',
-      path: `/pages/home/lover/index/index?lover_open_id=${app.globalData.host_open_id}`
+      path: `/pages/home/lover/index/index?lover_user_id=${app.globalData.host_user_id}`
     }
   })
 

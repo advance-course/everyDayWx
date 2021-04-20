@@ -29,7 +29,7 @@ export default function WishItem(props: props) {
   const finishWish = async function (_id, index) {
     try {
       setApiLoading(true)
-      await finishWishApi(_id, app.globalData.host_open_id)
+      await finishWishApi(_id, app.globalData.host_user_id)
       const updateWish = {
         item: {
           ...item,

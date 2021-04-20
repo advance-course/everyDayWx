@@ -20,7 +20,7 @@ export default function MenuItem(props: Props) {
       handleClick()
       return
     }
-    if (checkType === 'single' && app.globalData.lover_open_id) {
+    if (checkType === 'single' && app.globalData.lover_user_id) {
       Taro.showToast({
         title: '您已绑定情侣关系',
         icon: 'none',
@@ -28,7 +28,7 @@ export default function MenuItem(props: Props) {
       })
       return
     }
-    if (checkType === 'couple' && !app.globalData.lover_open_id) {
+    if (checkType === 'couple' && !app.globalData.lover_user_id) {
       Taro.showToast({
         title: '请先绑定情侣关系',
         icon: 'none',

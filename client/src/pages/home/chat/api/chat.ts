@@ -3,7 +3,7 @@ import http from "utils/http";
 export interface Message {
   _id?: string;
   coupleId?: string;
-  openId: string;
+  userId: string;
   msgType?: string;
   textContent?: string;
   sendTime?: Date;
