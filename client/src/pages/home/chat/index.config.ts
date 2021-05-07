@@ -1,3 +1,4 @@
 export default {
-  navigationBarTitleText: "情侣聊天"
+  navigationBarTitleText: "情侣聊天",
+  enablePullDownRefresh: true
 };

@@ -23,22 +23,67 @@ exports.main = async (event, context) => {
   * 查询聊天记录
   * @param {coupleId} 情侣ID
   */
+  // app.router('v1/chatList', async ctx => {
+  //   const { coupleId } = event
+  //   const doc = {
+  //     coupleId,
+  //   }
+  //   try {
+  //     const { data: chatList } = await chat.where(doc).orderBy('sendTime', 'asc').get()
+  //     ctx.body = {
+  //       success: true,
+  //       code: 200,
+  //       message: '请求成功',
+  //       data: {
+  //         chatList
+  //       }
+  //     }
+  //   } catch (error) {
+  //     ctx.body = {
+  //       success: false,
+  //       code: error.errCode,
+  //       message: error.errMsg
+  //     }
+  //   }
+  // })
+
+
+  /**
+  * 查询聊天记录
+  * @param {coupleId} 情侣ID
+  */
   app.router('v1/chatList', async ctx => {
-    const { coupleId } = event
-    const doc = {
-      coupleId,
-    }
+    let { current = 1, pageSize = 10, total, keyword = '', coupleId } = event;
+    let result, lastPage = false
+    console.log(event)
     try {
-      const { data: chatList } = await chat.where(doc).orderBy('sendTime', 'asc').get()
+      if (total === -1) {
+        result = await chat.where({ coupleId }).orderBy('sendTime', 'desc')
+        const count = await result.count()
+        total = count.total || 0
+      } else {
+        result = await chat.where({ coupleId }).orderBy('sendTime', 'desc').limit(total)
+      }
+      if (current * pageSize >= total) {
+        lastPage = true;
+      }
+      const start = pageSize * (current - 1);
+      const list = await result.skip(start).limit(pageSize).get();
+      const data = {
+        pageSize,
+        current,
+        lastPage,
+        total,
+        list: list.data
+      }
       ctx.body = {
         success: true,
         code: 200,
         message: '请求成功',
-        data: {
-          chatList
-        }
+        data
       }
     } catch (error) {
+      console.error(error)
       ctx.body = {
         success: false,
         code: error.errCode,
@@ -70,6 +115,7 @@ exports.main = async (event, context) => {
         data: doc
       }
     } catch (error) {
+      console.error(error)
       ctx.body = {
         success: false,
         code: error.errCode,

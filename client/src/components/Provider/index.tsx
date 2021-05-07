@@ -6,11 +6,12 @@ import "./index.scss";
 interface props {
   errMsg: string,
   loading: boolean,
+  increasing: boolean,
   children: JSX.Element
 }
 
 export default function Provider(props: props) {
-  const { errMsg, loading } = props
+  const { errMsg, loading, increasing } = props
 
   useEffect(() => {
     if (loading) {
@@ -34,6 +35,7 @@ export default function Provider(props: props) {
 
   return (
     <View className="provider">
+      {increasing && <View className="header-text">数据加载中...</View>}
       { props.children}
     </View>
   )

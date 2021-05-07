@@ -1,4 +1,5 @@
 import http from "utils/http";
+import { Page } from "hooks/usePagination/entity";
 
 export interface Message {
   _id?: string;
@@ -7,15 +8,15 @@ export interface Message {
   msgType?: string;
   textContent?: string;
   sendTime?: Date;
-  fail?: boolean
+  fail?: boolean;
 }
 
 export interface ChatList {
   chatList: Message[];
 }
 
-export function getChatListApi(coupleId) {
-  return http.post<ChatList>("chat/v1/chatList", { coupleId });
+export function getChatListApi(params) {
+  return http.post<Page<Message>>("chat/v1/chatList", params);
 }
 
 export function sendTextApi(chatContent) {
