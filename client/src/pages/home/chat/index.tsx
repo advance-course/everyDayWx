@@ -7,7 +7,8 @@ import useWatchChatList from 'hooks/useWatchChatList'
 import "./index.scss"
 
 export default function ChatIndex() {
-  const { list, increasing, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
+  const { list, storageList, increasing, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
+  const showList = list.length ? list : storageList
   const [text, setText] = useState('')
 
   const onInput = function (e) {
@@ -23,7 +24,7 @@ export default function ChatIndex() {
       <View className="container">
         <View className="chat-content">
           {
-            list.list.map(item =>
+            showList.map(item =>
               <Message message={item} coupleInfo={coupleInfo} host={item.userId === coupleInfo.hostInfo._id}></Message>
             )
           }
