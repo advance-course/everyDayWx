@@ -44,21 +44,23 @@ export default function useWatchChatList() {
   const [storageList, setStorageList] = useState<Message[]>([])
   const state = usePagination<Message>(
     getChatListApi,
-    { coupleId: app.globalData.couple_id, current: 1, pageSize: 10, total: -1 },
+    { coupleId: app.globalData.couple_id, current: 1, pageSize: 20, total: -1 },
     false
   );
-  const { list, errMsg: pageErrMsg, loading, increasing, setIncreasing, setParams, push, unshift, updateList } = state;
+  const { list, errMsg: pageErrMsg, loading, increasing, setIncreasing, setParams, unshift, updateList } = state;
 
   // page错误信息
   useEffect(() => {
     setErrMsg(pageErrMsg);
   }, [pageErrMsg]);
 
-  // 首次加载时历史条数
+  // 首次加载时
   useEffect(() => {
     if (!loading && isFirst) {
-      setParams({ total: list.pagination.total });
+      setParams({ total: list.pagination.total }); // 保存历史条数
       isFirst = false;
+      targetToBottom()
+      watchChatList();
     }
   }, [loading]);
 
@@ -69,6 +71,7 @@ export default function useWatchChatList() {
       coupleInfoStorage && setCoupleInfo(coupleInfoStorage);
       const chatStorage = Taro.getStorageSync("chatStorage");
       chatStorage && chatStorage.length && setStorageList(chatStorage);
+      targetToBottom()
     }
     Promise.all([userInfoApi(app.globalData.lover_user_id), userInfoApi(app.globalData.host_user_id)])
       .then(res => {
@@ -76,23 +79,29 @@ export default function useWatchChatList() {
           loverInfo: res[0].data,
           hostInfo: res[1].data
         });
-        watchChatList();
-        Taro.eventCenter.on("watchingChatList", doc => push(doc));
       })
       .catch(error => {
         setErrMsg(error);
         console.error(error);
       });
     return () => {
-      const list = JSON.parse(JSON.stringify(ref.current)).slice(0, 10).reverse()
+      const list = JSON.parse(JSON.stringify(ref.current)).slice(0, 20).reverse()
       Taro.setStorageSync("chatStorage", list);
       Taro.eventCenter.off("watchingChatList");
+      isFirst = true
     };
   }, []);
 
   // 获取新数据后相关操作
   useEffect(() => {
     ref.current = list.list // 保存数据
+    Taro.eventCenter.on("watchingChatList", doc => {
+      unshift(doc)
+      targetToBottom()
+    });
+    return () => {
+      Taro.eventCenter.off("watchingChatList");
+    }
   }, [list.list.length]);
 
   // 情侣信息缓存
@@ -116,12 +125,12 @@ export default function useWatchChatList() {
     if (!list.pagination.lastPage) {
       setIncreasing(true); // 现在是push操作 需要改成unshift
     } else {
+      stopPullDownRefresh();
       Taro.showToast({
         title: "已经到顶了",
         icon: "none",
         duration: 2000
       });
-      stopPullDownRefresh();
     }
   });
 
@@ -143,12 +152,7 @@ export default function useWatchChatList() {
     };
     try {
       unshift(doc);
-      Taro.nextTick(() => {
-        Taro.pageScrollTo({
-          scrollTop: 10000, // 置底
-          duration: 0
-        })
-      })
+      targetToBottom()
       await sendTextApi({
         text,
         userId: app.globalData.host_user_id,
@@ -159,6 +163,15 @@ export default function useWatchChatList() {
       console.error(error);
     }
   };
+
+  const targetToBottom = function() {
+    Taro.nextTick(() => {
+      Taro.pageScrollTo({
+        scrollTop: 10000, // 置底
+        duration: 0
+      })
+    })
+  }
 
   return {
     list: JSON.parse(JSON.stringify(list.list)).reverse(),

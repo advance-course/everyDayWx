@@ -79,7 +79,7 @@ export default function usePagination<T>(
   }
 
   async function deleteItem(index: number) {
-    const { pageSize = 10, current: originCurrent } = list.pagination 
+    const { pageSize = 10, current: originCurrent } = list.pagination
     const deletePageNumber = Math.ceil((index + 1) / pageSize)
     if (originCurrent === 1) {
         setState(produce(state, df => {
