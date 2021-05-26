@@ -123,7 +123,7 @@ export default function useWatchChatList() {
   // 下拉加载历史聊天
   usePullDownRefresh(() => {
     if (!list.pagination.lastPage) {
-      setIncreasing(true); // 现在是push操作 需要改成unshift
+      setIncreasing(true);
     } else {
       stopPullDownRefresh();
       Taro.showToast({
