@@ -50,10 +50,9 @@ exports.main = async (event, context) => {
    * @param {coupleId} 情侣ID
    */
   app.router('v1/chatList', async (ctx) => {
-    let { current = 1, pageSize = 10, total, keyword = '', coupleId } = event
+    let { current = 1, pageSize = 10, total, coupleId } = event
     let result,
       lastPage = false
-    console.log(event)
     try {
       if (total === -1) {
         result = await chat.where({ coupleId }).orderBy('sendTime', 'desc')
@@ -79,6 +78,30 @@ exports.main = async (event, context) => {
         code: 200,
         message: '请求成功',
         data
+      }
+    } catch (error) {
+      console.error(error)
+      ctx.body = {
+        success: false,
+        code: error.errCode,
+        message: error.errMsg
+      }
+    }
+  })
+
+  /**
+   * 查询最新一条聊天记录
+   * @param {coupleId} 情侣ID
+   */
+  app.router('v1/chatListV2', async (ctx) => {
+    let { userId } = event
+    try {
+      const result = await chat.where({ userId }).orderBy('sendTime', 'desc').limit(1).get()
+      ctx.body = {
+        success: true,
+        code: 200,
+        message: '请求成功',
+        data: result.data[0]
       }
     } catch (error) {
       console.error(error)

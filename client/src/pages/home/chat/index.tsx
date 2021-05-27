@@ -4,10 +4,12 @@ import { View, Input } from '@tarojs/components'
 import Provider from 'components/Provider'
 import Message from 'pages/home/chat/components/Message'
 import useWatchChatList from 'hooks/useWatchChatList'
+import usePollChatList from 'hooks/usePollChatList'
 import "./index.scss"
 
 export default function ChatIndex() {
-  const { list, storageList, increasing, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
+  // const { list, storageList, increasing, coupleInfo, loading, errMsg, sendText } = useWatchChatList()
+  const { list, storageList, increasing, coupleInfo, loading, errMsg, sendText } = usePollChatList()
   const showList = list.length ? list : storageList
   const [text, setText] = useState('')
 

@@ -1,40 +1,35 @@
 import { useState, useEffect, useRef } from "react";
 import Taro, { usePullDownRefresh, stopPullDownRefresh } from "@tarojs/taro";
 import { userInfoApi } from "api/user";
-import { getChatListApi, sendTextApi, Message } from "pages/home/chat/api/chat";
+import { getChatListApi, getChatListApiV2, sendTextApi, Message } from "pages/home/chat/api/chat";
 import { getDefCoupleInfo, getDefErrorInfo, CoupleInfo, FailMsg } from "hooks/useWatchChatList/entity";
 import usePagination from "hooks/usePagination/index";
 
 const app = Taro.getApp();
 
 let isFirst = true;
-let watcher
+let timer;
 
-// 监听聊天数据变化
-const watchChatList = function() {
-  const db = Taro.cloud.database({
-    // env: cloud.DYNAMIC_CURRENT_ENV
-    env: "develop-1gsdlqw8ff792ed2"
-  });
-  watcher = db.collection("chat")
-    .where({ userId: app.globalData.lover_user_id })
-    .watch({
-      onChange: onRealtimeMessageSnapshot,
-      onError: e => {
-        console.error(e);
+const pollChatList = async function(time) {
+  let sendTime = time;
+  async function getNewMessage() {
+    try {
+      const res = await getChatListApiV2({
+        userId: app.globalData.lover_user_id
+      });
+      if ((res.data.sendTime || 0) > sendTime) {
+        Taro.eventCenter.trigger("watchingChatList", res.data);
+        sendTime = res.data.sendTime;
       }
-    });
-  function onRealtimeMessageSnapshot(snapshot) {
-    console.warn(`收到消息`, snapshot);
-    if (snapshot.type === "init") return;
-    for (const docChange of snapshot.docChanges) {
-      switch (docChange.queueType) {
-        case "enqueue": {
-          Taro.eventCenter.trigger("watchingChatList", docChange.doc);
-        }
+      if (!isFirst) { // 是否退出页面判断
+        timer = setTimeout(getNewMessage, 1000);
       }
+    } catch (error) {
+      clearTimeout(timer);
+      console.error(error);
     }
   }
+  getNewMessage();
 };
 
 export default function useWatchChatList() {
@@ -42,7 +37,7 @@ export default function useWatchChatList() {
   const [coupleInfo, setCoupleInfo] = useState<CoupleInfo>(getDefCoupleInfo());
   const [failMsg, setFailMsg] = useState<FailMsg>(getDefErrorInfo());
   const [errMsg, setErrMsg] = useState<string>("");
-  const [storageList, setStorageList] = useState<Message[]>([])
+  const [storageList, setStorageList] = useState<Message[]>([]);
   const state = usePagination<Message>(
     getChatListApi,
     { coupleId: app.globalData.couple_id, current: 1, pageSize: 20, total: -1 },
@@ -60,8 +55,8 @@ export default function useWatchChatList() {
     if (!loading && isFirst) {
       setParams({ total: list.pagination.total }); // 保存历史条数
       isFirst = false;
-      targetToBottom()
-      watchChatList();
+      targetToBottom();
+      pollChatList(list.list[0].sendTime);
     }
   }, [loading]);
 
@@ -72,7 +67,7 @@ export default function useWatchChatList() {
       coupleInfoStorage && setCoupleInfo(coupleInfoStorage);
       const chatStorage = Taro.getStorageSync("chatStorage");
       chatStorage && chatStorage.length && setStorageList(chatStorage);
-      targetToBottom()
+      targetToBottom();
     }
     Promise.all([userInfoApi(app.globalData.lover_user_id), userInfoApi(app.globalData.host_user_id)])
       .then(res => {
@@ -86,23 +81,28 @@ export default function useWatchChatList() {
         console.error(error);
       });
     return () => {
-      const list = JSON.parse(JSON.stringify(ref.current)).slice(0, 20).reverse()
+      const list = JSON.parse(JSON.stringify(ref.current))
+        .slice(0, 20)
+        .reverse();
       Taro.setStorageSync("chatStorage", list);
-      watcher.close() // 关闭db监听
-      isFirst = true
+
+      // 避免清除时机早于第一次轮询
+      // setTimeout(() => clearTimeout(timer), 1000); 偶现没有清除到最新timer 弃用
+
+      isFirst = true;
     };
   }, []);
 
   // 获取新数据后相关操作
   useEffect(() => {
-    ref.current = list.list // 保存数据
+    ref.current = list.list; // 保存数据
     Taro.eventCenter.on("watchingChatList", doc => {
-      unshift(doc)
-      targetToBottom()
+      unshift(doc);
+      targetToBottom();
     });
     return () => {
       Taro.eventCenter.off("watchingChatList");
-    }
+    };
   }, [list.list.length]);
 
   // 情侣信息缓存
@@ -153,7 +153,7 @@ export default function useWatchChatList() {
     };
     try {
       unshift(doc);
-      targetToBottom()
+      targetToBottom();
       await sendTextApi({
         text,
         userId: app.globalData.host_user_id,
@@ -170,9 +170,9 @@ export default function useWatchChatList() {
       Taro.pageScrollTo({
         scrollTop: 10000, // 置底
         duration: 0
-      })
-    })
-  }
+      });
+    });
+  };
 
   return {
     list: JSON.parse(JSON.stringify(list.list)).reverse(),
