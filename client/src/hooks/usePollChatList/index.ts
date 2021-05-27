@@ -17,7 +17,7 @@ const pollChatList = async function(time) {
       const res = await getChatListApiV2({
         userId: app.globalData.lover_user_id
       });
-      if ((res.data.sendTime || 0) > sendTime) {
+      if ((res.data && res.data.sendTime || 0) > sendTime) {
         Taro.eventCenter.trigger("watchingChatList", res.data);
         sendTime = res.data.sendTime;
       }
@@ -56,7 +56,7 @@ export default function useWatchChatList() {
       setParams({ total: list.pagination.total }); // 保存历史条数
       isFirst = false;
       targetToBottom();
-      pollChatList(list.list[0].sendTime);
+      pollChatList(list.list.length && list.list[0].sendTime || 0);
     }
   }, [loading]);
 
@@ -87,7 +87,7 @@ export default function useWatchChatList() {
       Taro.setStorageSync("chatStorage", list);
 
       // 避免清除时机早于第一次轮询
-      // setTimeout(() => clearTimeout(timer), 1000); 偶现没有清除到最新timer 弃用
+      // setTimeout(() => clearTimeout(timer), 1000); 偶现没有清除到最新timer 暂弃用
 
       isFirst = true;
     };
